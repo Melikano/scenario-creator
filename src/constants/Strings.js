@@ -6,6 +6,9 @@ const Strings = {
   chooseName: 'برای شروع ابتدا نام سناریو را مشخص کنید',
   scenarioName: 'نام سناریو',
   enter: 'ورود',
+  welcome: 'به سناریوساز خوش آمدید!',
+  nextButtonText: 'مرحله بعد',
+  previousButtonText: 'مرحله قبل',
 };
 
 export default Strings;
