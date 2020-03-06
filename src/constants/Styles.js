@@ -13,7 +13,7 @@ const SharedStyles = StyleSheet.create({
     backgroundColor: Colors.gray,
   },
   sharedButtonStyle: {
-    padding: 20,
+    padding: 10,
     color: Colors.white,
     borderRadius: 5,
   },

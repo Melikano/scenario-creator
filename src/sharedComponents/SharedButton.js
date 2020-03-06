@@ -14,7 +14,7 @@ const SharedButton = ({buttonType, onPress}: Props) => {
       case 'NEXT':
         return {
           title: Strings.nextButtonText,
-          color: SharedStyles.nextButtonStyle,
+          color: SharedStyles.nextButton,
           hasIcon: true,
           icon: 'arrowright',
         };
@@ -39,7 +39,7 @@ const SharedButton = ({buttonType, onPress}: Props) => {
 
   return (
     <Button
-      style={{...SharedStyles.nextButtonStyle, ...button.current.color}}
+      style={{...SharedStyles.sharedButtonStyle, ...button.current.color}}
       onPress={onPress}>
       <Text style={SharedStyles.sharedButtonTextStyle}>
         {button.current.title}
