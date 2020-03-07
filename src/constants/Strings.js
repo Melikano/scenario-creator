@@ -9,6 +9,7 @@ const Strings = {
   welcome: 'به سناریوساز خوش آمدید!',
   nextButtonText: 'مرحله بعد',
   previousButtonText: 'مرحله قبل',
+  chooseThings: 'اشیاء مورد نظر خود را انتخاب کنید',
 };
 
 export default Strings;

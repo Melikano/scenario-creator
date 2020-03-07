@@ -1,13 +1,24 @@
 //@flow
 import React, {useState} from 'react';
 import {View, Text, TextInput, StyleSheet, Image} from 'react-native';
+import {useDispatch} from 'react-redux';
 import Strings from '../constants/Strings';
 import SharedButton from '../sharedComponents/SharedButton';
 import sharedStyles from '../constants/Styles';
-import type {nextButton} from '../constants/Types';
-type Props = {};
-const NewScenario = (props: Props) => {
+import {addScenarioName} from '../Redux/actions/ScenarioActions';
+import {useNavigation} from '@react-navigation/native';
+
+type Props = {
+  addScenarioNameToStore: (name: string) => void,
+};
+const AddNameScreen = ({addScenarioNameToStore}: Props) => {
   const [name, setName] = useState('');
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+  const handleNextClick = () => {
+    dispatch(addScenarioName(name));
+    navigation.navigate('ChooseThings');
+  };
   return (
     <View style={styles.container}>
       <Image
@@ -26,7 +37,7 @@ const NewScenario = (props: Props) => {
         value={name}
         placeholder={Strings.scenarioName}
       />
-      <SharedButton buttonType="NEXT" onPress={() => {}} />
+      <SharedButton buttonType="NEXT" onPress={handleNextClick} />
     </View>
   );
 };
@@ -55,4 +66,4 @@ const styles = StyleSheet.create({
     padding: 12,
   },
 });
-export default NewScenario;
+export default AddNameScreen;
