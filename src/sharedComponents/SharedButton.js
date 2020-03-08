@@ -14,21 +14,21 @@ const SharedButton = ({buttonType, onPress}: Props) => {
       case 'NEXT':
         return {
           title: Strings.nextButtonText,
-          color: SharedStyles.nextButton,
+          style: SharedStyles.nextButton,
           hasIcon: true,
           icon: 'arrowright',
         };
       case 'PREV':
         return {
-          title: Strings.nextButtonText,
-          color: SharedStyles.prevButton,
+          title: Strings.previousButtonText,
+          style: SharedStyles.prevButton,
           hasIcon: true,
           icon: 'arrowleft',
         };
       default:
         return {
           title: '',
-          color: SharedStyles.defaultButton,
+          style: SharedStyles.defaultButton,
           hasIcon: false,
           icon: '',
         };
@@ -39,13 +39,17 @@ const SharedButton = ({buttonType, onPress}: Props) => {
 
   return (
     <Button
-      style={{...SharedStyles.sharedButtonStyle, ...button.current.color}}
+      style={{...SharedStyles.sharedButtonStyle, ...button.current.style}}
       onPress={onPress}>
       <Text style={SharedStyles.sharedButtonTextStyle}>
         {button.current.title}
       </Text>
       {button.current.hasIcon && (
-        <Icon type="AntDesign" name={button.current.icon} />
+        <Icon
+          style={SharedStyles.sharedIconStyle}
+          type="AntDesign"
+          name={button.current.icon}
+        />
       )}
     </Button>
   );

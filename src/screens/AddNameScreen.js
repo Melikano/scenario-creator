@@ -7,6 +7,7 @@ import SharedButton from '../sharedComponents/SharedButton';
 import sharedStyles from '../constants/Styles';
 import {addScenarioName} from '../Redux/actions/ScenarioActions';
 import {useNavigation} from '@react-navigation/native';
+import Screens from '../constants/Screens';
 
 type Props = {
   addScenarioNameToStore: (name: string) => void,
@@ -17,7 +18,7 @@ const AddNameScreen = ({addScenarioNameToStore}: Props) => {
   const navigation = useNavigation();
   const handleNextClick = () => {
     dispatch(addScenarioName(name));
-    navigation.navigate('ChooseThings');
+    navigation.navigate(Screens.chooseThings);
   };
   return (
     <View style={styles.container}>
