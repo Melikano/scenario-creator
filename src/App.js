@@ -6,19 +6,18 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
-import scenarioCreator from './src/Redux/reducers/ScenarioReducer';
+import scenarioCreator from './Redux/reducers/ScenarioReducer';
 import {Icon} from 'native-base';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import NewScenarioStack from './src/navigation/NewScenarioStack';
-import Profile from './src/screens/Profile';
-import BottomTabBar from './src/navigation/BottomTabBar';
+import NewScenarioStack from './navigation/NewScenarioStack';
+import Profile from './screens/Profile';
+import BottomTabBar from './navigation/BottomTabBar';
 
 const store = createStore(scenarioCreator);
 const Tab = createBottomTabNavigator();
 
 const App: () => React$Node = () => {
-  console.log(store.getState());
   return (
     <Provider store={store}>
       <NavigationContainer>

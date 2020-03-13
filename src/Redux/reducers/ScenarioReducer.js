@@ -1,7 +1,6 @@
 //@flow
 import Actions from '../../constants/Actions';
 const ScenarioReducer = (state: Object = {}, action: Object) => {
-  console.log(action);
   switch (action.type) {
     case Actions.ADD_SCENARIO_NAME:
       return {...state, name: action.name};

@@ -3,7 +3,7 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import AddNameScreen from '../screens/AddNameScreen';
 import ChooseThingsScreen from '../screens/ChooseThingsScreen';
-import DrawStateMachineScreen from '../screens/ChooseThingsScreen';
+import DrawStateMachineScreen from '../screens/DrawStateMachineScreen';
 import Screens from '../constants/Screens';
 
 const Stack = createStackNavigator();

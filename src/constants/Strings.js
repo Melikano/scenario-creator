@@ -10,6 +10,9 @@ const Strings = {
   nextButtonText: 'مرحله بعد',
   previousButtonText: 'مرحله قبل',
   chooseThings: 'اشیاء مورد نظر خود را انتخاب کنید',
+  addState: 'افزودن حالت جدید',
+  addTransition: 'افزودن گذار جدید',
+  state: (stateNum: number) => `حالت ${stateNum}`,
 };
 
 export default Strings;

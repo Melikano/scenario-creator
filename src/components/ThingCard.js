@@ -11,7 +11,7 @@ type Props = {
     id: string,
     name: string,
     description: string,
-  }
+  },
 };
 const ThingCard = ({thing}: Props) => {
   const [isAdded, setIsAdded] = useState(false);

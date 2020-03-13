@@ -24,6 +24,7 @@ const SharedStyles = StyleSheet.create({
   sharedTextStyle: {
     fontFamily: Fonts.iransans,
     color: Colors.gray,
+    textAlign: 'center',
   },
   sharedButtonTextStyle: {
     fontFamily: Fonts.iransansBold,

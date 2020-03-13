@@ -22,7 +22,6 @@ const ChooseThingsScreen = () => {
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>{Strings.chooseThings}</Text>
-      {console.log(arrToMatrix(MockThings))}
       {arrToMatrix(MockThings).map(row => (
         <View style={styles.thingRow}>
           {row.map(thing => thing && <ThingCard thing={thing} />)}
