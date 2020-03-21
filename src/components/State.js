@@ -13,11 +13,11 @@ type StateProps = {
 const State = ({stateNumber, isInitialState}: StateProps) => {
   return (
     <View style={styles.state}>
-      {stateNumber && (
+      {stateNumber ? (
         <Text style={SharedStyles.sharedTextStyle}>
-          {Strings.state(stateNumber)}
+          {Strings.stateText(stateNumber)}
         </Text>
-      )}
+      ) : null}
     </View>
   );
 };

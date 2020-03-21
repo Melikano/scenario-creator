@@ -6,10 +6,19 @@ import Colors from '../constants/Colors';
 import Strings from '../constants/Strings';
 import SharedStyles from '../constants/Styles';
 
-const AddStateOrTransButton = () => {
+type AddStateOrTransButtonProps = {
+  handleAddState: () => void,
+}
+const AddStateOrTransButton = ({
+  handleAddState,
+}: AddStateOrTransButtonProps) => {
   const [expanded, setExpanded] = useState(false);
   const handleExpand = () => {
     setExpanded(true);
+  };
+  const handleAddStateButton = () => {
+    handleAddState();
+    setExpanded(false);
   };
   return !expanded ? (
     <Button style={styles.circleButton} onPress={handleExpand}>
@@ -19,7 +28,9 @@ const AddStateOrTransButton = () => {
     <TouchableOpacity
       style={styles.expandedAddButtonContainer}
       onPress={() => setExpanded(false)}>
-      <TouchableOpacity style={styles.expandedAddButton}>
+      <TouchableOpacity
+        style={styles.expandedAddButton}
+        onPress={handleAddStateButton}>
         <Text style={SharedStyles.sharedButtonTextStyle}>
           {Strings.addState}
         </Text>
@@ -33,7 +44,6 @@ const AddStateOrTransButton = () => {
     </TouchableOpacity>
   );
 };
-const height = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   circleButton: {
     justifyContent: 'center',
@@ -41,9 +51,6 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     backgroundColor: Colors.blueButton,
-    position: 'absolute',
-    top: height - 210,
-    left: 10,
   },
   icon: {
     marginRight: 0,
@@ -55,12 +62,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: Colors.blueButton,
     padding: 5,
-    position: 'absolute',
-    top: height - 270,
-    left: 10,
+    position: 'relative',
+    bottom: 70,
   },
   expandedAddButton: {
     backgroundColor: Colors.blueButton,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.white,
     justifyContent: 'flex-end',
     padding: 5,
   },

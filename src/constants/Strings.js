@@ -12,7 +12,8 @@ const Strings = {
   chooseThings: 'اشیاء مورد نظر خود را انتخاب کنید',
   addState: 'افزودن حالت جدید',
   addTransition: 'افزودن گذار جدید',
-  state: (stateNum: number) => `حالت ${stateNum}`,
+  stateText: (stateNum: number) => `حالت ${stateNum}`,
+  confirm: 'تایید',
 };
 
 export default Strings;
