@@ -10,7 +10,10 @@ const Stack = createStackNavigator();
 
 const NewScenarioStack = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
       <Stack.Screen name={Screens.addName} component={AddNameScreen} />
       <Stack.Screen
         name={Screens.chooseThings}

@@ -14,6 +14,8 @@ const Strings = {
   addTransition: 'افزودن گذار جدید',
   stateText: (stateNum: number) => `حالت ${stateNum}`,
   confirm: 'تایید',
+  submitActuatorsValueInState: (stateNum: number) =>
+    `مقادیر عملگرها را در حالت ${stateNum} وارد کنید`,
 };
 
 export default Strings;
