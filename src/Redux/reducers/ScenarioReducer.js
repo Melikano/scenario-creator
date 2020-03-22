@@ -1,7 +1,7 @@
 //@flow
 import Actions from '../../constants/Actions';
 const ScenarioReducer = (
-  state: Object = {name: '', things: []},
+  state: Object = {name: '', things: [], fsm: {states: []}},
   action: Object,
 ) => {
   switch (action.type) {
@@ -13,6 +13,11 @@ const ScenarioReducer = (
       return {
         ...state,
         things: state.things.filter(thing => thing.id !== action.thingId),
+      };
+    case Actions.ADD_STATE:
+      return {
+        ...state,
+        fsm: {states: [...state.fsm.states, action.state]},
       };
     default:
       return state;

@@ -6,12 +6,9 @@ import Colors from '../constants/Colors';
 import Fonts from '../constants/Fonts';
 import {useDispatch} from 'react-redux';
 import {addThing, removeThing} from '../Redux/actions/ScenarioActions';
+import type {thingType} from '../constants/Types';
 type Props = {
-  thing: {
-    id: string,
-    name: string,
-    description: string,
-  },
+  thing: thingType,
 };
 const ThingCard = ({thing}: Props) => {
   const [isAdded, setIsAdded] = useState(false);

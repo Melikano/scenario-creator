@@ -1,15 +1,12 @@
 //@flow
 import Actions from '../../constants/Actions';
+import type {stateType, thingType} from '../../constants/Types';
 export const addScenarioName = (name: string) => ({
   type: Actions.ADD_SCENARIO_NAME,
   name,
 });
 
-export const addThing = (thing: {
-  id: string,
-  name: string,
-  description: string,
-}) => ({
+export const addThing = (thing: thingType) => ({
   type: Actions.ADD_THING,
   thing,
 });
@@ -17,4 +14,9 @@ export const addThing = (thing: {
 export const removeThing = (thingId: string) => ({
   type: Actions.REMOVE_THING,
   thingId,
+});
+
+export const addState = (state: stateType) => ({
+  type: Actions.ADD_STATE,
+  state,
 });

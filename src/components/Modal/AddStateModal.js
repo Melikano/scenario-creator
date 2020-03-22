@@ -1,96 +1,65 @@
 //@flow
-import React from 'react';
-import {
-  Modal,
-  Text,
-  View,
-  TextInput,
-  TouchableWithoutFeedback,
-  StyleSheet,
-  Keyboard,
-} from 'react-native';
+import React, {useState} from 'react';
+import {Text, View, TextInput, StyleSheet} from 'react-native';
+import SharedModal from '../../sharedComponents/SharedModal';
 import Strings from '../../constants/Strings';
 import {useSelector} from 'react-redux';
 import SharedStyles from '../../constants/Styles';
-import Colors from '../../constants/Colors';
-import {Button} from 'native-base';
 import Fonts from '../../constants/Fonts';
+import type {thingType} from '../../constants/Types';
 
 type AddStateModalProps = {
   stateNumber: number,
-  setActuatorValue: (actuatorId: string, value: string) => void,
   handleToggleVisibility: (
     modalVisibility: boolean,
     stateCompleted: boolean,
+    actuatorValues: ?Array<{...thingType, value: string}>,
   ) => void,
-  modalVisible: boolean,
 };
 const AddStateModal = ({
   stateNumber,
-  setActuatorValue,
-  modalVisible,
   handleToggleVisibility,
 }: AddStateModalProps) => {
   const things = useSelector(state => state.things);
+  const actuators = things.filter(
+    (thing: thingType) => thing.type === 'actuator',
+  );
+  const [actuatorsValues, setActuatorsValues] = useState(actuators);
   return (
-    <Modal visible transparent>
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={styles.modalBackground}>
-          <View style={styles.modalContainer}>
-            <Text style={SharedStyles.sharedTextStyle}>
-              {Strings.submitActuatorsValueInState(stateNumber)}
-            </Text>
-            <View style={styles.thingsContainer}>
-              {things
-                .filter(thing => thing.type === 'actuator')
-                .map(thing => (
-                  <View style={styles.thingRow}>
-                    <TextInput
-                      style={styles.thingsValueTextInput}
-                      keyboardType="numeric"
-                    />
-                    <Text style={SharedStyles.sharedTextStyle}>
-                      {thing.name}
-                    </Text>
-                  </View>
-                ))}
+    <SharedModal
+      visible
+      transparent
+      onCancel={() => handleToggleVisibility(false, false)}
+      onConfirm={() => handleToggleVisibility(false, true, actuatorsValues)}>
+      <View style={styles.modalContainer}>
+        <Text style={SharedStyles.sharedTextStyle}>
+          {Strings.submitActuatorsValueInState(stateNumber)}
+        </Text>
+        <View style={styles.thingsContainer}>
+          {actuators.map(act => (
+            <View style={styles.thingRow}>
+              <TextInput
+                style={styles.thingsValueTextInput}
+                keyboardType="numeric"
+                onChange={value =>
+                  setActuatorsValues([
+                    ...actuatorsValues,
+                    {
+                      ...actuators.find(actuator => actuator.id === act.id),
+                      value,
+                    },
+                  ])
+                }
+              />
+              <Text style={SharedStyles.sharedTextStyle}>{act.name}</Text>
             </View>
-            <View style={styles.buttonContainer}>
-              <Button
-                onPress={() => handleToggleVisibility(false, false)}
-                style={{
-                  ...SharedStyles.sharedButtonStyle,
-                  ...styles.modalButton,
-                }}>
-                <Text style={SharedStyles.sharedButtonTextStyle}>
-                  {Strings.cancel}
-                </Text>
-              </Button>
-              <Button
-                onPress={() => handleToggleVisibility(false, true)}
-                style={{
-                  ...SharedStyles.sharedButtonStyle,
-                  ...styles.modalButton,
-                }}>
-                <Text style={SharedStyles.sharedButtonTextStyle}>
-                  {Strings.confirm}
-                </Text>
-              </Button>
-            </View>
-          </View>
+          ))}
         </View>
-      </TouchableWithoutFeedback>
-    </Modal>
+      </View>
+    </SharedModal>
   );
 };
 const styles = StyleSheet.create({
-  modalBackground: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    backgroundColor: '#999999aa',
-    alignItems: 'center',
-  },
   modalContainer: {
     backgroundColor: 'white',
     width: '80%',
@@ -122,16 +91,6 @@ const styles = StyleSheet.create({
     width: 40,
     paddingTop: 0,
     paddingBottom: 0,
-  },
-  modalButton: {
-    backgroundColor: Colors.blueButton,
-    marginTop: 20,
-    width: 80,
-  },
-  buttonContainer: {
-    width: '80%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
   },
 });
 export default AddStateModal;

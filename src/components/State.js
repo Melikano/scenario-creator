@@ -6,14 +6,11 @@ import Fonts from '../constants/Fonts';
 
 type StateProps = {
   stateNumber: number,
-  isInitialState: boolean,
   x: number,
   y: number,
 };
-const State = ({stateNumber, isInitialState, x, y}: StateProps) => {
-  return isInitialState ? (
-    <Circle cx={x} cy={y} r="10" fill={Colors.gray} />
-  ) : (
+const State = ({stateNumber, x, y}: StateProps) => {
+  return (
     <>
       <Circle
         cx={x}

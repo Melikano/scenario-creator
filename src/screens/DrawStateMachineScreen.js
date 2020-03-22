@@ -1,5 +1,6 @@
 //@flow
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {View, Text, Button} from 'native-base';
 import {Svg} from 'react-native-svg';
 import State from '../components/State';
@@ -11,21 +12,18 @@ import SharedStyles from '../constants/Styles';
 import Colors from '../constants/Colors';
 import AddStateModal from '../components/Modal/AddStateModal';
 import {computeNexStateCoordinates} from '../utils/Utils';
+import type {stateType, thingType} from '../constants/Types';
+import {addState} from '../Redux/actions/ScenarioActions';
 const {height} = Dimensions.get('window');
-type state = {
-  stateNumber: number,
-  isInitial: boolean,
-  x: number,
-  y: number,
-};
+
 const DrawStateMachineScreen = () => {
-  const initialState: state = {stateNumber: 3, isInitial: true, x: 30, y: 30};
-  const initialNextState: state = {
+  const initialNextState: stateType = {
     stateNumber: 1,
-    isInitial: false,
-    ...computeNexStateCoordinates(35, 35),
+    x: 30,
+    y: 30,
   };
-  const [states, setStates] = useState([initialState]);
+  const dispatch = useDispatch();
+  const [states, setStates] = useState([]);
   const [currentModal, setCurrentModal] = useState({addState: false});
   const [nextState, setNextState] = useState(initialNextState);
   const handleShowModal = (
@@ -36,9 +34,13 @@ const DrawStateMachineScreen = () => {
     return stateCompleted;
   };
 
-  const handleAddState = (addConfirmed: boolean) => {
+  const handleAddState = (
+    addConfirmed: boolean,
+    actuatorsValues: ?Array<{...thingType, value: string}>,
+  ) => {
     if (addConfirmed) {
-      setStates([...states, nextState]);
+      dispatch(addState({...nextState, actuatorsValues}));
+      setStates([...states, {...nextState, actuatorsValues}]);
       const {x, y} = computeNexStateCoordinates(nextState.x, nextState.y);
       setNextState({
         stateNumber: nextState.stateNumber + 1,
@@ -52,27 +54,24 @@ const DrawStateMachineScreen = () => {
     modal.addState ? (
       <AddStateModal
         modalVisible={modal.addState}
-        setActuatorValue={(id, text) => {}}
-        stateNumber={5}
+        stateNumber={nextState.stateNumber}
         handleToggleVisibility={(
           modalVisibility: boolean,
           stateCompleted: boolean,
+          actuatorsValues: ?Array<{...thingType, value: string}>,
         ) => {
-          handleAddState(handleShowModal(modalVisibility, stateCompleted));
+          handleAddState(
+            handleShowModal(modalVisibility, stateCompleted),
+            actuatorsValues,
+          );
         }}
       />
     ) : null;
   return (
     <View>
       <Svg>
-        <Transition x1={30} y1={30} x2={120} y2={120} />
-        {states.map((item: state) => (
-          <State
-            isInitialState={item.isInitial}
-            stateNumber={item.stateNumber}
-            x={item.x}
-            y={item.y}
-          />
+        {states.map((item: stateType) => (
+          <State stateNumber={item.stateNumber} x={item.x} y={item.y} />
         ))}
       </Svg>
       {renderModal(currentModal)}
