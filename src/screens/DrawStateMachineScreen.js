@@ -10,44 +10,76 @@ import Strings from '../constants/Strings';
 import SharedStyles from '../constants/Styles';
 import Colors from '../constants/Colors';
 import AddStateModal from '../components/Modal/AddStateModal';
+import {computeNexStateCoordinates} from '../utils/Utils';
+const {height} = Dimensions.get('window');
 type state = {
   stateNumber: number,
   isInitial: boolean,
+  x: number,
+  y: number,
 };
 const DrawStateMachineScreen = () => {
-  const initialState: state = {stateNumber: 3, isInitial: true};
-  const [states, setStates] = useState([initialState]);
-  const [AddStateModalVisible, setAddStateModalVisible] = useState(false);
-  const handleAddState = () => {
-    setAddStateModalVisible(true);
-    const lasState: number = states.length - 1;
-    const nextState: state = {
-      stateNumber: lasState + 1,
-      isInitial: false,
-    };
-    setStates([...states, nextState]);
+  const initialState: state = {stateNumber: 3, isInitial: true, x: 30, y: 30};
+  const initialNextState: state = {
+    stateNumber: 1,
+    isInitial: false,
+    ...computeNexStateCoordinates(35, 35),
   };
-  console.log(states);
+  const [states, setStates] = useState([initialState]);
+  const [currentModal, setCurrentModal] = useState({addState: false});
+  const [nextState, setNextState] = useState(initialNextState);
+  const handleShowModal = (
+    modalVisibility: boolean,
+    stateCompleted: boolean,
+  ) => {
+    setCurrentModal({addState: modalVisibility});
+    return stateCompleted;
+  };
+
+  const handleAddState = (addConfirmed: boolean) => {
+    if (addConfirmed) {
+      setStates([...states, nextState]);
+      const {x, y} = computeNexStateCoordinates(nextState.x, nextState.y);
+      setNextState({
+        stateNumber: nextState.stateNumber + 1,
+        isInitial: false,
+        x,
+        y,
+      });
+    }
+  };
+  const renderModal = (modal: Object) =>
+    modal.addState ? (
+      <AddStateModal
+        modalVisible={modal.addState}
+        setActuatorValue={(id, text) => {}}
+        stateNumber={5}
+        handleToggleVisibility={(
+          modalVisibility: boolean,
+          stateCompleted: boolean,
+        ) => {
+          handleAddState(handleShowModal(modalVisibility, stateCompleted));
+        }}
+      />
+    ) : null;
   return (
     <View>
       <Svg>
         <Transition x1={30} y1={30} x2={120} y2={120} />
-        {states.map(item => (
+        {states.map((item: state) => (
           <State
-            isInitialState={false}
+            isInitialState={item.isInitial}
             stateNumber={item.stateNumber}
-            x={30}
-            y={30}
+            x={item.x}
+            y={item.y}
           />
         ))}
       </Svg>
-      <AddStateModal
-        modalVisible={AddStateModalVisible}
-        setActuatorValue={(id, text) => {}}
-        stateNumber={5}
-      />
+      {renderModal(currentModal)}
       <View style={styles.buttonsContainer}>
-        <AddStateOrTransButton handleAddState={handleAddState} />
+        <AddStateOrTransButton
+          handleAddState={() => handleShowModal(true, false)}
+        />
         <Button style={styles.confirmButton}>
           <Text style={SharedStyles.sharedButtonTextStyle}>
             {Strings.confirm}
@@ -58,11 +90,10 @@ const DrawStateMachineScreen = () => {
   );
 };
 
-const height = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   buttonsContainer: {
     position: 'absolute',
-    top: height - 210,
+    top: height - 150,
     left: 10,
     width: '95%',
     flexDirection: 'row',

@@ -19,6 +19,7 @@ const SharedStyles = StyleSheet.create({
     padding: 10,
     color: Colors.white,
     borderRadius: 5,
+    height: null,
     justifyContent: 'space-around',
   },
   sharedTextStyle: {

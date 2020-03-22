@@ -7,7 +7,7 @@ import Strings from '../constants/Strings';
 import SharedStyles from '../constants/Styles';
 
 type AddStateOrTransButtonProps = {
-  handleAddState: () => void,
+  handleAddState: () => boolean,
 }
 const AddStateOrTransButton = ({
   handleAddState,

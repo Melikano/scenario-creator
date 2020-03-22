@@ -1,10 +1,6 @@
 //@flow
 import React from 'react';
-import {View} from 'native-base';
-import Strings from '../constants/Strings';
-import {StyleSheet} from 'react-native';
 import {Circle, Text} from 'react-native-svg';
-import SharedStyles from '../constants/Styles';
 import Colors from '../constants/Colors';
 import Fonts from '../constants/Fonts';
 
@@ -41,15 +37,3 @@ const State = ({stateNumber, isInitialState, x, y}: StateProps) => {
   );
 };
 export default State;
-
-const styles = StyleSheet.create({
-  state: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    borderWidth: 2,
-    borderColor: Colors.gray,
-    width: 70,
-    height: 70,
-    borderRadius: 35,
-  },
-});
