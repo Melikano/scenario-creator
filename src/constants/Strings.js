@@ -17,6 +17,12 @@ const Strings = {
   cancel: 'انصراف',
   submitActuatorsValueInState: (stateNum: number) =>
     `مقادیر عملگرها را در حالت ${stateNum} وارد کنید`,
+  submitDestAndSrc: 'مبداء و مقصد گذار را مشخص کنید',
+  lessThanTwoStateError:
+    'برای اضافه کردن گذار باید حداقل دو حالت ایجاد کرده باشید',
+  submitSensorsConditions: 'شرایط سنسورها در گذار را مشخص کنید',
+  source: 'حالت مبداء',
+  destination: 'حالت مقصد',
 };
 
 export default Strings;

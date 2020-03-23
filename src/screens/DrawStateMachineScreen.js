@@ -14,6 +14,7 @@ import AddStateModal from '../components/Modal/AddStateModal';
 import {computeNexStateCoordinates} from '../utils/Utils';
 import type {stateType, thingType} from '../constants/Types';
 import {addState} from '../Redux/actions/ScenarioActions';
+import AddTransitionModal from '../components/Modal/AddTransitionModal';
 const {height} = Dimensions.get('window');
 
 const DrawStateMachineScreen = () => {
@@ -24,14 +25,22 @@ const DrawStateMachineScreen = () => {
   };
   const dispatch = useDispatch();
   const [states, setStates] = useState([]);
-  const [currentModal, setCurrentModal] = useState({addState: false});
+  const [currentModal, setCurrentModal] = useState({
+    addState: false,
+    addTrans: false,
+  });
   const [nextState, setNextState] = useState(initialNextState);
-  const handleShowModal = (
+  const handleShowStateModal = (
     modalVisibility: boolean,
-    stateCompleted: boolean,
+    completed: boolean,
+    modalType: string,
   ) => {
-    setCurrentModal({addState: modalVisibility});
-    return stateCompleted;
+    setCurrentModal(
+      modalType === 'state'
+        ? {addState: modalVisibility}
+        : {addTrans: modalVisibility},
+    );
+    return completed;
   };
 
   const handleAddState = (
@@ -50,22 +59,27 @@ const DrawStateMachineScreen = () => {
       });
     }
   };
+
+  const handleToggleVisibilityStateModal = (
+    modalVisibility: boolean,
+    stateCompleted: boolean,
+    actuatorsValues: ?Array<{...thingType, value: string}>,
+  ) => {
+    handleAddState(
+      handleShowStateModal(modalVisibility, stateCompleted, 'state'),
+      actuatorsValues,
+    );
+  };
+
   const renderModal = (modal: Object) =>
     modal.addState ? (
       <AddStateModal
         modalVisible={modal.addState}
         stateNumber={nextState.stateNumber}
-        handleToggleVisibility={(
-          modalVisibility: boolean,
-          stateCompleted: boolean,
-          actuatorsValues: ?Array<{...thingType, value: string}>,
-        ) => {
-          handleAddState(
-            handleShowModal(modalVisibility, stateCompleted),
-            actuatorsValues,
-          );
-        }}
+        handleToggleVisibility={handleToggleVisibilityStateModal}
       />
+    ) : modal.addTrans ? (
+      <AddTransitionModal />
     ) : null;
   return (
     <View>
@@ -77,7 +91,9 @@ const DrawStateMachineScreen = () => {
       {renderModal(currentModal)}
       <View style={styles.buttonsContainer}>
         <AddStateOrTransButton
-          handleAddState={() => handleShowModal(true, false)}
+          handleButtonPressed={(type: string) =>
+            handleShowStateModal(true, false, type)
+          }
         />
         <Button style={styles.confirmButton}>
           <Text style={SharedStyles.sharedButtonTextStyle}>

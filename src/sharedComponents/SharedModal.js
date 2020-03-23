@@ -15,34 +15,36 @@ import Colors from '../constants/Colors';
 type SharedModalProps = {
   onConfirm: Function,
   onCancel: Function,
-  children: React.Element<any>,
+  children: Array<React.Element<any>>,
 };
 const SharedModal = ({onConfirm, onCancel, children}: SharedModalProps) => {
   return (
     <Modal visible transparent>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        {children}
-        <View style={styles.buttonContainer}>
-          <Button
-            onPress={onCancel}
-            style={{
-              ...SharedStyles.sharedButtonStyle,
-              ...styles.modalButton,
-            }}>
-            <Text style={SharedStyles.sharedButtonTextStyle}>
-              {Strings.cancel}
-            </Text>
-          </Button>
-          <Button
-            onPress={onConfirm}
-            style={{
-              ...SharedStyles.sharedButtonStyle,
-              ...styles.modalButton,
-            }}>
-            <Text style={SharedStyles.sharedButtonTextStyle}>
-              {Strings.confirm}
-            </Text>
-          </Button>
+        <View style={styles.modalContainer}>
+          {children}
+          <View style={styles.buttonContainer}>
+            <Button
+              onPress={onCancel}
+              style={{
+                ...SharedStyles.sharedButtonStyle,
+                ...styles.modalButton,
+              }}>
+              <Text style={SharedStyles.sharedButtonTextStyle}>
+                {Strings.cancel}
+              </Text>
+            </Button>
+            <Button
+              onPress={onConfirm}
+              style={{
+                ...SharedStyles.sharedButtonStyle,
+                ...styles.modalButton,
+              }}>
+              <Text style={SharedStyles.sharedButtonTextStyle}>
+                {Strings.confirm}
+              </Text>
+            </Button>
+          </View>
         </View>
       </TouchableWithoutFeedback>
     </Modal>
@@ -55,6 +57,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#999999aa',
     alignItems: 'center',
+  },
+  modalContainer: {
+    backgroundColor: 'white',
+    width: '80%',
+    padding: 20,
+    position: 'absolute',
+    top: '30%',
+    alignItems: 'center',
+    borderRadius: 15,
   },
   modalButton: {
     backgroundColor: Colors.blueButton,

@@ -7,17 +7,17 @@ import Strings from '../constants/Strings';
 import SharedStyles from '../constants/Styles';
 
 type AddStateOrTransButtonProps = {
-  handleAddState: () => boolean,
+  handleButtonPressed: string => boolean,
 }
 const AddStateOrTransButton = ({
-  handleAddState,
+  handleButtonPressed,
 }: AddStateOrTransButtonProps) => {
   const [expanded, setExpanded] = useState(false);
   const handleExpand = () => {
     setExpanded(true);
   };
-  const handleAddStateButton = () => {
-    handleAddState();
+  const handlePress = (type: string) => {
+    handleButtonPressed(type);
     setExpanded(false);
   };
   return !expanded ? (
@@ -30,12 +30,14 @@ const AddStateOrTransButton = ({
       onPress={() => setExpanded(false)}>
       <TouchableOpacity
         style={styles.expandedAddButton}
-        onPress={handleAddStateButton}>
+        onPress={() => handlePress('state')}>
         <Text style={SharedStyles.sharedButtonTextStyle}>
           {Strings.addState}
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.expandedAddButton}>
+      <TouchableOpacity
+        style={styles.expandedAddButton}
+        onPress={() => handlePress('tran')}>
         <Text style={SharedStyles.sharedButtonTextStyle}>
           {Strings.addTransition}
         </Text>

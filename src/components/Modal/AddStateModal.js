@@ -27,48 +27,35 @@ const AddStateModal = ({
   const [actuatorsValues, setActuatorsValues] = useState(actuators);
   return (
     <SharedModal
-      visible
-      transparent
       onCancel={() => handleToggleVisibility(false, false)}
       onConfirm={() => handleToggleVisibility(false, true, actuatorsValues)}>
-      <View style={styles.modalContainer}>
-        <Text style={SharedStyles.sharedTextStyle}>
-          {Strings.submitActuatorsValueInState(stateNumber)}
-        </Text>
-        <View style={styles.thingsContainer}>
-          {actuators.map(act => (
-            <View style={styles.thingRow}>
-              <TextInput
-                style={styles.thingsValueTextInput}
-                keyboardType="numeric"
-                onChange={value =>
-                  setActuatorsValues([
-                    ...actuatorsValues,
-                    {
-                      ...actuators.find(actuator => actuator.id === act.id),
-                      value,
-                    },
-                  ])
-                }
-              />
-              <Text style={SharedStyles.sharedTextStyle}>{act.name}</Text>
-            </View>
-          ))}
-        </View>
+      <Text style={SharedStyles.sharedTextStyle}>
+        {Strings.submitActuatorsValueInState(stateNumber)}
+      </Text>
+      <View style={styles.thingsContainer}>
+        {actuators.map(act => (
+          <View style={styles.thingRow}>
+            <TextInput
+              style={styles.thingsValueTextInput}
+              keyboardType="numeric"
+              onChange={value =>
+                setActuatorsValues([
+                  ...actuatorsValues,
+                  {
+                    ...actuators.find(actuator => actuator.id === act.id),
+                    value,
+                  },
+                ])
+              }
+            />
+            <Text style={SharedStyles.sharedTextStyle}>{act.name}</Text>
+          </View>
+        ))}
       </View>
     </SharedModal>
   );
 };
 const styles = StyleSheet.create({
-  modalContainer: {
-    backgroundColor: 'white',
-    width: '80%',
-    padding: 20,
-    position: 'absolute',
-    top: '30%',
-    alignItems: 'center',
-    borderRadius: 15,
-  },
   thingsContainer: {
     flexDirection: 'column',
     marginTop: 20,
