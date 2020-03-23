@@ -24,7 +24,7 @@ const AddStateModal = ({
   const actuators = things.filter(
     (thing: thingType) => thing.type === 'actuator',
   );
-  const [actuatorsValues, setActuatorsValues] = useState(actuators);
+  const [actuatorsValues, setActuatorsValues] = useState([]);
   return (
     <SharedModal
       onCancel={() => handleToggleVisibility(false, false)}
@@ -38,7 +38,7 @@ const AddStateModal = ({
             <TextInput
               style={styles.thingsValueTextInput}
               keyboardType="numeric"
-              onChange={value =>
+              onChangeText={value =>
                 setActuatorsValues([
                   ...actuatorsValues,
                   {

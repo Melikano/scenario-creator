@@ -13,8 +13,10 @@ import Colors from '../constants/Colors';
 import AddStateModal from '../components/Modal/AddStateModal';
 import {computeNexStateCoordinates} from '../utils/Utils';
 import type {stateType, transType, thingType} from '../constants/Types';
-import {addState} from '../Redux/actions/ScenarioActions';
+import {addState, addTransition} from '../Redux/actions/ScenarioActions';
 import AddTransitionModal from '../components/Modal/AddTransitionModal';
+import {useNavigation} from '@react-navigation/native';
+import Screens from '../constants/Screens';
 const {height} = Dimensions.get('window');
 
 const DrawStateMachineScreen = () => {
@@ -24,6 +26,7 @@ const DrawStateMachineScreen = () => {
     y: 100,
   };
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const [states, setStates] = useState([]);
   const [trans, setTrans] = useState([]);
   const [currentModal, setCurrentModal] = useState({
@@ -49,8 +52,9 @@ const DrawStateMachineScreen = () => {
     actuatorsValues: ?Array<{...thingType, value: string}>,
   ) => {
     if (addConfirmed) {
-      dispatch(addState({...nextState, actuatorsValues}));
-      setStates([...states, {...nextState, actuatorsValues}]);
+      const nxtState = {...nextState, actuatorsValues};
+      dispatch(addState(nxtState));
+      setStates([...states, nxtState]);
       const {x, y} = computeNexStateCoordinates(nextState.x, nextState.y);
       setNextState({
         stateNumber: nextState.stateNumber + 1,
@@ -71,19 +75,18 @@ const DrawStateMachineScreen = () => {
     }>,
   ) => {
     if (addConfirmed) {
-      setTrans([
-        ...trans,
-        {
-          preState:
-            states.find((state: stateType) => state.stateNumber === source) ||
-            initialNextState,
-          nextState:
-            states.find(
-              (state: stateType) => state.stateNumber === destination,
-            ) || initialNextState,
-          sensorsConditions,
-        },
-      ]);
+      const nxtTran = {
+        preState:
+          states.find((state: stateType) => state.stateNumber === source) ||
+          initialNextState,
+        nextState:
+          states.find(
+            (state: stateType) => state.stateNumber === destination,
+          ) || initialNextState,
+        sensorsConditions,
+      };
+      dispatch(addTransition(nxtTran));
+      setTrans([...trans, nxtTran]);
     }
   };
 
@@ -129,7 +132,7 @@ const DrawStateMachineScreen = () => {
       />
     ) : null;
   return (
-    <View>
+    <View style={styles.container}>
       <Svg>
         {trans.map((tran: transType) => (
           <Transition
@@ -150,7 +153,9 @@ const DrawStateMachineScreen = () => {
             handleShowModal(true, false, type)
           }
         />
-        <Button style={styles.confirmButton}>
+        <Button
+          style={styles.confirmButton}
+          onPress={() => navigation.navigate(Screens.scenarioCreated)}>
           <Text style={SharedStyles.sharedButtonTextStyle}>
             {Strings.confirm}
           </Text>
@@ -161,6 +166,9 @@ const DrawStateMachineScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: Colors.white,
+  },
   buttonsContainer: {
     position: 'absolute',
     top: height - 150,

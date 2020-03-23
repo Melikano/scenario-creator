@@ -25,8 +25,11 @@ const AddTransitionModal = ({
   handleModalVisibility,
 }: AddTransitionModalProps) => {
   const things = useSelector(state => state.things);
-  const sensors = things.filter((thing: thingType) => thing.type === 'sensor');
+  const sensors = things
+    .filter((thing: thingType) => thing.type === 'sensor')
+    .map(sensor => ({...sensor, upperBound: '', lowerBound: ''}));
   const [sensorsConditions, setSensorsConditions] = useState(sensors);
+
   const [srcAndDest, setSrcAndDest] = useState({
     src: 0,
     dest: 0,
@@ -89,30 +92,22 @@ const AddTransitionModal = ({
             <View style={styles.thingRow}>
               <TextInput
                 style={styles.thingsValueTextInput}
-                onChange={text =>
-                  setSensorsConditions([
-                    ...sensorsConditions,
-                    {
-                      ...sensors.find(sensor => sensor.id === sens.id),
-                      upperBound: text,
-                    },
-                  ])
-                }
+                onChangeText={text => {
+                  let sensor = sensorsConditions.find(s => s.id === sens.id);
+                  sensor.upperBound = text;
+                  setSensorsConditions([...sensorsConditions, sensor]);
+                }}
               />
               <Text style={SharedStyles.sharedTextStyle}>
                 {` <  ${sens.name}  < `}
               </Text>
               <TextInput
                 style={styles.thingsValueTextInput}
-                onChange={text =>
-                  setSensorsConditions([
-                    ...sensorsConditions,
-                    {
-                      ...sensors.find(sensor => sensor.id === sens.id),
-                      lowerBound: text,
-                    },
-                  ])
-                }
+                onChangeText={text => {
+                  let sensor = sensorsConditions.find(s => s.id === sens.id);
+                  sensor.lowerBound = text;
+                  setSensorsConditions([...sensorsConditions, sensor]);
+                }}
               />
             </View>
           ))

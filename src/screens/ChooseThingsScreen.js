@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 2,
     padding: 20,
+    backgroundColor: Colors.white,
   },
   title: {
     textAlign: 'center',

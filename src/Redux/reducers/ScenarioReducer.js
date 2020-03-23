@@ -1,7 +1,7 @@
 //@flow
 import Actions from '../../constants/Actions';
 const ScenarioReducer = (
-  state: Object = {name: '', things: [], fsm: {states: []}},
+  state: Object = {name: '', things: [], fsm: {states: [], transitions: []}},
   action: Object,
 ) => {
   switch (action.type) {
@@ -17,7 +17,15 @@ const ScenarioReducer = (
     case Actions.ADD_STATE:
       return {
         ...state,
-        fsm: {states: [...state.fsm.states, action.state]},
+        fsm: {...state.fsm, states: [...state.fsm.states, action.state]},
+      };
+    case Actions.ADD_TRANSITION:
+      return {
+        ...state,
+        fsm: {
+          ...state.fsm,
+          transitions: [...state.fsm.transitions, action.transition],
+        },
       };
     default:
       return state;

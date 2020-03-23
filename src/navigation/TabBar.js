@@ -29,7 +29,7 @@ const TabButton = styled.TouchableOpacity`
 `;
 
 const Label = styled(Animated.Text)`
-  color: #666;
+  color: #fff;
   font-weight: bold;
   margin-right: ${p => (p.icon ? 8 : 0)};
   font-family: 'IRANSansMobileFaNum';

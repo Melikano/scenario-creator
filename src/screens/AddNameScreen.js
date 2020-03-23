@@ -8,6 +8,7 @@ import sharedStyles from '../constants/Styles';
 import {addScenarioName} from '../Redux/actions/ScenarioActions';
 import {useNavigation} from '@react-navigation/native';
 import Screens from '../constants/Screens';
+import Colors from '../constants/Colors';
 
 type Props = {
   addScenarioNameToStore: (name: string) => void,
@@ -44,7 +45,7 @@ const AddNameScreen = ({addScenarioNameToStore}: Props) => {
 };
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.white,
     alignItems: 'center',
     height: '100%',
   },
