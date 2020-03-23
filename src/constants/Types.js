@@ -16,3 +16,13 @@ export type stateType = {
   y: number,
   actuatorsValues?: ?Array<{...thingType, value: string}>,
 };
+
+export type transType = {
+  preState: stateType,
+  nextState: stateType,
+  sensorsConditions: ?Array<{
+    ...thingType,
+    upperBound: string,
+    lowerBound: string,
+  }>,
+};

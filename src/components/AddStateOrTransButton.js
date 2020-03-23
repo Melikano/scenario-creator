@@ -1,14 +1,14 @@
 //@flow
 import React, {useState} from 'react';
-import {View, Text, Button, Icon} from 'native-base';
-import {StyleSheet, TouchableOpacity, Dimensions} from 'react-native';
+import {Text, Button, Icon} from 'native-base';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import Colors from '../constants/Colors';
 import Strings from '../constants/Strings';
 import SharedStyles from '../constants/Styles';
 
 type AddStateOrTransButtonProps = {
   handleButtonPressed: string => boolean,
-}
+};
 const AddStateOrTransButton = ({
   handleButtonPressed,
 }: AddStateOrTransButtonProps) => {

@@ -8,20 +8,44 @@ import SharedStyles from '../../constants/Styles';
 import Fonts from '../../constants/Fonts';
 import type {thingType} from '../../constants/Types';
 
-type AddTransitionModalProps = {};
-const AddTransitionModal = ({}: AddTransitionModalProps) => {
+type AddTransitionModalProps = {
+  handleModalVisibility: (
+    modalVisibility: boolean,
+    confirmed: boolean,
+    source: ?number,
+    destionation: ?number,
+    sensorsConditions: ?Array<{
+      ...thingType,
+      upperBound: string,
+      lowerBound: string,
+    }>,
+  ) => void,
+};
+const AddTransitionModal = ({
+  handleModalVisibility,
+}: AddTransitionModalProps) => {
   const things = useSelector(state => state.things);
   const sensors = things.filter((thing: thingType) => thing.type === 'sensor');
   const [sensorsConditions, setSensorsConditions] = useState(sensors);
   const [srcAndDest, setSrcAndDest] = useState({
-    src: '',
-    dest: '',
+    src: 0,
+    dest: 0,
     added: false,
   });
   const onConfirm = () => {
-    !srcAndDest.added ? setSrcAndDest({...srcAndDest, added: true}) : {};
+    !srcAndDest.added
+      ? setSrcAndDest({...srcAndDest, added: true})
+      : handleModalVisibility(
+          false,
+          true,
+          srcAndDest.src,
+          srcAndDest.dest,
+          sensorsConditions,
+        );
   };
-  const onCancel = () => {};
+  const onCancel = () => {
+    handleModalVisibility(false, false);
+  };
   return (
     <SharedModal onCancel={onCancel} onConfirm={onConfirm}>
       <Text style={SharedStyles.sharedTextStyle}>
@@ -32,24 +56,64 @@ const AddTransitionModal = ({}: AddTransitionModalProps) => {
       <View style={styles.thingsContainer}>
         {!srcAndDest.added ? (
           <View>
-            <View>
-              <Text>{Strings.source}</Text>
-              <TextInput style={styles.thingsValueTextInput} />
+            <View style={styles.thingRow}>
+              <TextInput
+                style={styles.thingsValueTextInput}
+                keyboardType="numeric"
+                onChangeText={text => {
+                  console.log(text);
+                  setSrcAndDest({
+                    ...srcAndDest,
+                    src: parseInt(text),
+                  });
+                }}
+              />
+              <Text style={SharedStyles.sharedTextStyle}>{Strings.source}</Text>
             </View>
 
-            <View>
-              <Text>{Strings.destination}</Text>
-              <TextInput style={styles.thingsValueTextInput} />
+            <View style={styles.thingRow}>
+              <TextInput
+                style={styles.thingsValueTextInput}
+                keyboardType="numeric"
+                onChangeText={text =>
+                  setSrcAndDest({...srcAndDest, dest: parseInt(text)})
+                }
+              />
+              <Text style={SharedStyles.sharedTextStyle}>
+                {Strings.destination}
+              </Text>
             </View>
           </View>
         ) : (
           sensors.map(sens => (
             <View style={styles.thingRow}>
-              <TextInput style={styles.thingsValueTextInput} />
+              <TextInput
+                style={styles.thingsValueTextInput}
+                onChange={text =>
+                  setSensorsConditions([
+                    ...sensorsConditions,
+                    {
+                      ...sensors.find(sensor => sensor.id === sens.id),
+                      upperBound: text,
+                    },
+                  ])
+                }
+              />
               <Text style={SharedStyles.sharedTextStyle}>
-                {`< ${sens.name} <`}
+                {` <  ${sens.name}  < `}
               </Text>
-              <TextInput style={styles.thingsValueTextInput} />
+              <TextInput
+                style={styles.thingsValueTextInput}
+                onChange={text =>
+                  setSensorsConditions([
+                    ...sensorsConditions,
+                    {
+                      ...sensors.find(sensor => sensor.id === sens.id),
+                      lowerBound: text,
+                    },
+                  ])
+                }
+              />
             </View>
           ))
         )}
@@ -61,7 +125,7 @@ const styles = StyleSheet.create({
   thingsContainer: {
     flexDirection: 'column',
     marginTop: 20,
-    width: '50%',
+    width: '80%',
     alignSelf: 'center',
   },
   thingRow: {
