@@ -28,7 +28,6 @@ const AddTransitionModal = ({
   const sensors = things
     .filter((thing: thingType) => thing.type === 'sensor')
     .map(sensor => ({...sensor, upperBound: '', lowerBound: ''}));
-  const [sensorsConditions, setSensorsConditions] = useState(sensors);
 
   const [srcAndDest, setSrcAndDest] = useState({
     src: 0,
@@ -43,7 +42,7 @@ const AddTransitionModal = ({
           true,
           srcAndDest.src,
           srcAndDest.dest,
-          sensorsConditions,
+          sensors,
         );
   };
   const onCancel = () => {
@@ -64,10 +63,9 @@ const AddTransitionModal = ({
                 style={styles.thingsValueTextInput}
                 keyboardType="numeric"
                 onChangeText={text => {
-                  console.log(text);
                   setSrcAndDest({
                     ...srcAndDest,
-                    src: parseInt(text),
+                    src: parseInt(text, 10),
                   });
                 }}
               />
@@ -79,7 +77,7 @@ const AddTransitionModal = ({
                 style={styles.thingsValueTextInput}
                 keyboardType="numeric"
                 onChangeText={text =>
-                  setSrcAndDest({...srcAndDest, dest: parseInt(text)})
+                  setSrcAndDest({...srcAndDest, dest: parseInt(text, 10)})
                 }
               />
               <Text style={SharedStyles.sharedTextStyle}>
@@ -93,9 +91,7 @@ const AddTransitionModal = ({
               <TextInput
                 style={styles.thingsValueTextInput}
                 onChangeText={text => {
-                  let sensor = sensorsConditions.find(s => s.id === sens.id);
-                  sensor.upperBound = text;
-                  setSensorsConditions([...sensorsConditions, sensor]);
+                  sens.upperBound = text;
                 }}
               />
               <Text style={SharedStyles.sharedTextStyle}>
@@ -104,9 +100,7 @@ const AddTransitionModal = ({
               <TextInput
                 style={styles.thingsValueTextInput}
                 onChangeText={text => {
-                  let sensor = sensorsConditions.find(s => s.id === sens.id);
-                  sensor.lowerBound = text;
-                  setSensorsConditions([...sensorsConditions, sensor]);
+                  sens.lowerBound = text;
                 }}
               />
             </View>
