@@ -26,3 +26,8 @@ export type transType = {
     lowerBound: string,
   }>,
 };
+
+export type fsmType = {
+  states: Array<stateType>,
+  transitions: Array<transType>,
+};

@@ -3,7 +3,7 @@ import React from 'react';
 import {View, Text} from 'react-native';
 import {useSelector} from 'react-redux';
 
-const ScenarioCreatedScreen = ({}) => {
+const ScenarioCreatedScreen = () => {
   const fsm = useSelector(state => state.fsm);
   console.log(fsm);
   return (
