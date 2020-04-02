@@ -5,12 +5,9 @@ import type {
   stateType,
   thingType,
 } from '../constants/Types';
-import {randomUniform} from 'd3-random';
 const Simulator = (
   {states, transitions}: fsmType,
   things: Array<thingType>,
-  initialValues: Map<string, number>,
-  distributionFunctions: Map<string, Function>,
   simDuration: number,
 ) => {
   const initialState: stateType = states[0];
@@ -18,7 +15,7 @@ const Simulator = (
   const sensorsData: Array<{id: string, value: Array<number>}> = things
     .filter(thing => thing.type === 'sensor')
     .map(sens => {
-      const val = initialValues.get(sens.id);
+      const val = sens.initialValue;
       return val !== undefined
         ? {
             id: sens.id,
@@ -71,7 +68,15 @@ const Simulator = (
       console.log(currentState);
     }
     path.push(currentState);
-    sensorsData.forEach(sensor => sensor.value.push(sensor.value[t] + 1));
+    sensorsData.forEach(sensor =>
+      sensor.value.push(
+        things
+          .filter(thing => thing.type === 'sensor')
+          .find(thing => thing.id === sensor.id)
+          //$FlowFixMe
+          .distributionFuntion.func(),
+      ),
+    );
     actuatorsValues.forEach(act => {
       const v = currentState.actuatorsValues?.find(a => a.id === act.id);
       act.value.push(v ? parseInt(v.value, 10) : -1);

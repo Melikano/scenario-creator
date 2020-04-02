@@ -1,36 +1,54 @@
 //@flow
 import React from 'react';
-import {View, Text} from 'react-native';
-import {useSelector} from 'react-redux';
-import Simulator from '../utils/Simulator';
+import {View, Text, Image, StyleSheet} from 'react-native';
+import Strings from '../constants/Strings';
+import SharedStyles from '../constants/Styles';
+import SharedButton from '../sharedComponents/SharedButton';
+import {useNavigation} from '@react-navigation/native';
+import Screens from '../constants/Screens';
 
 const ScenarioCreatedScreen = () => {
-  const fsm = useSelector(state => state.fsm);
-  const things = useSelector(state => state.things);
-  const initialValues = new Map();
-  things
-    .filter(thing => thing.type === 'sensor')
-    .forEach((element, i) => {
-      initialValues.set(element.id, i);
-    });
-  console.log(initialValues);
-  console.log('>>>>>>>>>>>>>>>>>>>>>>>>FSM:');
-  console.log(fsm);
-  const {path, sensorsData, actuatorsValues} = Simulator(
-    fsm,
-    things,
-    initialValues,
-    new Map(),
-    20,
-  );
-  console.log('>>>>>>>>>>>>>>>>>>>>>>>>FINAL RESULTS');
-  console.log(path);
-  console.log(sensorsData);
-  console.log(actuatorsValues);
+  const navigation = useNavigation();
   return (
-    <View>
-      <Text>salaaaaaam</Text>
+    <View style={styles.container}>
+      <Image
+        source={require('../assets/images/Check_green.png')}
+        style={{...styles.imageStyle, ...styles.margin}}
+      />
+      <Text style={SharedStyles.sharedTextStyle}>
+        {Strings.scenarioCreatedSuccessfully}
+      </Text>
+
+      <View style={styles.buttonsContainer}>
+        <Text style={{...SharedStyles.sharedTextStyle, ...styles.margin}}>
+          {Strings.nextStep}
+        </Text>
+        <SharedButton
+          buttonType="SIM"
+          onPress={() => {
+            navigation.navigate(Screens.initSim);
+          }}
+        />
+      </View>
     </View>
   );
 };
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+  },
+  imageStyle: {
+    marginTop: 30,
+    width: '30%',
+    height: '30%',
+    resizeMode: 'contain',
+  },
+  buttonsContainer: {
+    marginTop: '20%',
+    alignItems: 'center',
+  },
+  margin: {
+    marginBottom: 30,
+  },
+});
 export default ScenarioCreatedScreen;

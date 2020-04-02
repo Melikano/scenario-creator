@@ -11,6 +11,9 @@ const SharedStyles = StyleSheet.create({
     backgroundColor: Colors.blueButton,
     flexDirection: 'row-reverse',
   },
+  simButton: {
+    backgroundColor: Colors.sim,
+  },
   defaultButton: {
     backgroundColor: Colors.gray,
   },
@@ -24,6 +27,12 @@ const SharedStyles = StyleSheet.create({
   },
   sharedTextStyle: {
     fontFamily: Fonts.iransans,
+    color: Colors.gray,
+    textAlign: 'center',
+  },
+  sharedTitleStyle: {
+    fontFamily: Fonts.iransansBold,
+    fontSize: 20,
     color: Colors.gray,
     textAlign: 'center',
   },

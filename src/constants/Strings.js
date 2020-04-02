@@ -23,6 +23,21 @@ const Strings = {
   submitSensorsConditions: 'شرایط سنسورها در گذار را مشخص کنید',
   source: 'حالت مبداء',
   destination: 'حالت مقصد',
+  scenarioCreatedSuccessfully: 'سناریو جدید با موفقیت ایجاد و ذخیره گردید',
+  nextStep: 'در ادامه می توانید برای تست سناریو آن را شبیه سازی کنید',
+  simulation: 'شبیه سازی',
+  initailValue: 'مقدار اولیه',
+  distributionFunc: 'تابع توزیع',
+  normal: 'نرمال',
+  exponentioal: 'نمایی',
+  uniform: 'یکنواخت',
+  parameter: 'پارامتر',
+  miu: 'میانگین',
+  sigma: 'انحراف معیار',
+  simDuration: 'مدت زمان شبیه سازی را مشخص کنید',
+  minute: 'دقیقه',
+  minimum: 'کمینه',
+  maximum: 'بیشینه',
 };
 
 export default Strings;

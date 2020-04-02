@@ -25,6 +25,18 @@ const SharedButton = ({buttonType, onPress}: Props) => {
           hasIcon: true,
           icon: 'arrowleft',
         };
+      case 'SIM':
+        return {
+          title: Strings.simulation,
+          style: SharedStyles.simButton,
+          hasIcon: false,
+        };
+      case 'START':
+        return {
+          title: Strings.start,
+          style: SharedStyles.simButton,
+          hasIcon: false,
+        };
       default:
         return {
           title: '',

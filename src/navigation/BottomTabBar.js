@@ -14,7 +14,10 @@ const BottomTabBar = (props: Props) => {
         Colors.blueButton,
         Colors.lightGray,
       ]}
-      {...props}
+      {
+        //$FlowFixMe
+        ...props
+      }
     />
   );
 };

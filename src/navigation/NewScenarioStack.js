@@ -6,6 +6,8 @@ import ChooseThingsScreen from '../screens/ChooseThingsScreen';
 import DrawStateMachineScreen from '../screens/DrawStateMachineScreen';
 import ScenarioCreatedScreen from '../screens/ScenarioCreatedScreen';
 import Screens from '../constants/Screens';
+import InitSimulationScreen from '../screens/InitSimulationScreen';
+import SimulationStartScreen from '../screens/SimulationStartScreen';
 
 const Stack = createStackNavigator();
 
@@ -29,6 +31,8 @@ const NewScenarioStack = () => {
         name={Screens.scenarioCreated}
         component={ScenarioCreatedScreen}
       />
+      <Stack.Screen name={Screens.initSim} component={InitSimulationScreen} />
+      <Stack.Screen name={Screens.startSim} component={SimulationStartScreen} />
     </Stack.Navigator>
   );
 };

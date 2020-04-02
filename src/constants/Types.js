@@ -1,14 +1,20 @@
 //@flow
-
-export type nextButton = 'NEXT';
-export type prevButton = 'PREV';
-
-export type ButtonType = 'NEXT' | 'PREV';
+export type ButtonType = 'NEXT' | 'PREV' | 'SIM' | 'EDIT' | 'START';
+export type distFuncType = {
+  funcName: string,
+  min?: ?number,
+  max?: ?number,
+  param1?: ?number,
+  param2?: ?number,
+  func?: Function,
+};
 export type thingType = {
   id: string,
   name: string,
   type: string,
   description: string,
+  distributionFuntion?: distFuncType,
+  initialValue?: number,
 };
 export type stateType = {
   stateNumber: number,
