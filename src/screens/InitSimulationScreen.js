@@ -8,21 +8,21 @@ import {
   TextInput,
   SafeAreaView,
 } from 'react-native';
-import {useSelector} from 'react-redux';
 import ThingListItem from '../components/ThingListItem';
 import Strings from '../constants/Strings';
 import Colors from '../constants/Colors';
 import SharedButton from '../sharedComponents/SharedButton';
 import SharedStyles from '../constants/Styles';
 import Fonts from '../constants/Fonts';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import Screens from '../constants/Screens';
 import DistFuncs from '../constants/DistFunctions';
 
 const InitSimulationScreen = () => {
   const navigation = useNavigation();
   const [duration, setDuration] = useState(0);
-  const things = useSelector(state => state.things);
+  const {scenario} = useRoute().params;
+  const {things} = scenario;
   const [simReadyThings, setSimReadyThings] = useState(
     things.map(thing =>
       thing.type === 'sensor'

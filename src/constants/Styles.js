@@ -19,7 +19,7 @@ const SharedStyles = StyleSheet.create({
   },
   sharedButtonStyle: {
     width: 120,
-    padding: 10,
+    padding: 2,
     color: Colors.white,
     borderRadius: 5,
     height: null,

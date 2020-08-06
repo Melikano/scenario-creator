@@ -17,6 +17,8 @@ import {addState, addTransition} from '../Redux/actions/ScenarioActions';
 import AddTransitionModal from '../components/Modal/AddTransitionModal';
 import {useNavigation} from '@react-navigation/native';
 import Screens from '../constants/Screens';
+import SharedHeader from '../sharedComponents/Header';
+
 const {height} = Dimensions.get('window');
 
 const DrawStateMachineScreen = () => {
@@ -133,6 +135,11 @@ const DrawStateMachineScreen = () => {
     ) : null;
   return (
     <View style={styles.container}>
+      <SharedHeader
+        title={Strings.newScenrio}
+        showBack={true}
+        onBackPress={() => navigation.goBack()}
+      />
       <Svg>
         {trans.map((tran: transType) => (
           <Transition

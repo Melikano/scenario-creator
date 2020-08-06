@@ -6,9 +6,11 @@ import Strings from '../constants/Strings';
 import type {ButtonType} from '../constants/Types';
 type Props = {
   onPress: () => void,
-  buttonType: ButtonType,
+  buttonType?: ButtonType,
+  style?: Object,
+  title?: string,
 };
-const SharedButton = ({buttonType, onPress}: Props) => {
+const SharedButton = ({buttonType, onPress, style, title = ''}: Props) => {
   const getButton = () => {
     switch (buttonType) {
       case 'NEXT':
@@ -39,7 +41,7 @@ const SharedButton = ({buttonType, onPress}: Props) => {
         };
       default:
         return {
-          title: '',
+          title,
           style: SharedStyles.defaultButton,
           hasIcon: false,
           icon: '',
@@ -51,7 +53,11 @@ const SharedButton = ({buttonType, onPress}: Props) => {
 
   return (
     <Button
-      style={{...SharedStyles.sharedButtonStyle, ...button.current.style}}
+      style={{
+        ...SharedStyles.sharedButtonStyle,
+        ...button.current.style,
+        ...style,
+      }}
       onPress={onPress}>
       <Text style={SharedStyles.sharedButtonTextStyle}>
         {button.current.title}

@@ -4,8 +4,12 @@ import {View, Text, TextInput, StyleSheet, Image} from 'react-native';
 import {useDispatch} from 'react-redux';
 import Strings from '../constants/Strings';
 import SharedButton from '../sharedComponents/SharedButton';
+import SharedHeader from '../sharedComponents/Header';
 import sharedStyles from '../constants/Styles';
-import {addScenarioName} from '../Redux/actions/ScenarioActions';
+import {
+  addScenarioName,
+  addDescription,
+} from '../Redux/actions/ScenarioActions';
 import {useNavigation} from '@react-navigation/native';
 import Screens from '../constants/Screens';
 import Colors from '../constants/Colors';
@@ -15,45 +19,58 @@ type Props = {
 };
 const AddNameScreen = ({addScenarioNameToStore}: Props) => {
   const [name, setName] = useState('');
+  const [desc, setDesc] = useState('');
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const handleNextClick = () => {
     dispatch(addScenarioName(name));
+    dispatch(addDescription(desc));
     navigation.navigate(Screens.chooseThings);
   };
   return (
-    <View style={styles.container}>
-      <Image
-        source={require('../assets/images/iot_pic.5a10bde.png')}
-        style={styles.imageStyle}
-      />
-      <Text style={{...sharedStyles.sharedTextStyle, ...styles.text}}>
-        {Strings.welcome}
-      </Text>
-      <Text style={{...sharedStyles.sharedTextStyle, ...styles.text}}>
-        {Strings.chooseName}
-      </Text>
-      <TextInput
-        style={styles.textInput}
-        onChangeText={text => setName(text)}
-        value={name}
-        placeholder={Strings.scenarioName}
-      />
-      <SharedButton buttonType="NEXT" onPress={handleNextClick} />
+    <View style={styles.whole}>
+      <SharedHeader title={Strings.newScenrio} />
+      <View style={styles.container}>
+        <View style={styles.section}>
+          <Text style={{...sharedStyles.sharedTextStyle, ...styles.text}}>
+            {Strings.chooseName}
+          </Text>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={text => setName(text)}
+            value={name}
+            placeholder={Strings.scenarioName}
+          />
+        </View>
+        <View style={styles.section}>
+          <Text style={{...sharedStyles.sharedTextStyle, ...styles.text}}>
+            {Strings.addDescription}
+          </Text>
+
+          <TextInput
+            style={{...styles.textInput, ...styles.descInput}}
+            onChangeText={text => setDesc(text)}
+            value={desc}
+            placeholder={Strings.description}
+          />
+        </View>
+        <SharedButton buttonType="NEXT" onPress={handleNextClick} />
+      </View>
     </View>
   );
 };
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.white,
     alignItems: 'center',
+    marginTop: 50,
+  },
+  whole: {
+    backgroundColor: Colors.white,
     height: '100%',
   },
-  imageStyle: {
-    marginTop: 30,
+  section: {
     width: '90%',
-    height: '50%',
-    resizeMode: 'contain',
+    alignItems: 'center',
   },
   text: {
     marginTop: 10,
@@ -64,8 +81,12 @@ const styles = StyleSheet.create({
     width: '80%',
     borderRadius: 5,
     fontFamily: 'IRANSansMobileFaNum',
-    margin: 30,
+    marginBottom: 30,
+    marginTop: 10,
     padding: 12,
+  },
+  descInput: {
+    height: 100,
   },
 });
 export default AddNameScreen;

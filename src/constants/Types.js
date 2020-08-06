@@ -37,3 +37,11 @@ export type fsmType = {
   states: Array<stateType>,
   transitions: Array<transType>,
 };
+
+export type scenarioType = {
+  name: String,
+  description: string,
+  dateCreated: String,
+  things: Array<thingType>,
+  fsm: fsmType,
+};
