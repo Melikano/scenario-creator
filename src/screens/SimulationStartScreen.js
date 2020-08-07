@@ -1,6 +1,6 @@
 //@flow
 import React from 'react';
-import {ScrollView} from 'react-native';
+import {ScrollView, StyleSheet} from 'react-native';
 import {useSelector} from 'react-redux';
 import Simulator from '../utils/Simulator';
 import {useRoute} from '@react-navigation/native';
@@ -8,6 +8,10 @@ import type {thingType} from '../constants/Types';
 import DistFuncs from '../constants/DistFunctions';
 import {randomUniform, randomExponential, randomNormal} from 'd3';
 import BarChart from '../components/Chart/BarChart';
+import {View, Text} from 'native-base';
+import SharedHeader from '../sharedComponents/Header';
+import Fonts from '../constants/Fonts';
+import Strings from '../constants/Strings';
 
 const SimulationStartScreen = () => {
   const {duration, things} = useRoute().params;
@@ -24,14 +28,51 @@ const SimulationStartScreen = () => {
   console.log(actuatorsValues);
   return (
     <ScrollView>
-      {sensorsData.map(sens => (
-        <BarChart
-          data={sens.value.map((v: number, index: number) => ({
-            label: index.toString(),
-            value: v,
-          }))}
-        />
-      ))}
+      <SharedHeader title="نتایج شبیه‌سازی" />
+      <View style={styles.chartContainer}>
+        {sensorsData.map(sens => (
+          <>
+            <Text style={styles.chartTitle}>
+              {//$FlowFixMe
+              Strings.chartTitle(sens.name)}
+            </Text>
+            <BarChart
+              data={sens.value.map((v: number, index: number) => ({
+                label: index.toString(),
+                value: v,
+              }))}
+            />
+          </>
+        ))}
+      </View>
+      <View style={styles.chartContainer}>
+        {actuatorsValues.map(act => (
+          <>
+            <Text style={styles.chartTitle}>
+              {//$FlowFixMe
+              Strings.chartTitle(act.name)}
+            </Text>
+            <BarChart
+              data={act.value.map((v: number, index: number) => ({
+                label: index.toString(),
+                value: v,
+              }))}
+            />
+          </>
+        ))}
+      </View>
+
+      <View style={styles.chartContainer}>
+        <>
+          <Text style={styles.chartTitle}>{Strings.chartTitle('حالت‌ها')}</Text>
+          <BarChart
+            data={path.map((v, index) => ({
+              label: index.toString(),
+              value: v.stateNumber,
+            }))}
+          />
+        </>
+      </View>
     </ScrollView>
   );
 };
@@ -78,4 +119,15 @@ const resolveFunction = (thing: thingType) => {
   }
   return thing;
 };
+
+const styles = StyleSheet.create({
+  chartContainer: {
+    alignItems: 'center',
+  },
+  chartTitle: {
+    textAlign: 'center',
+    marginVertical: 30,
+    fontFamily: Fonts.iransans,
+  },
+});
 export default SimulationStartScreen;

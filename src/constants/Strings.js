@@ -40,6 +40,15 @@ const Strings = {
   minute: 'دقیقه',
   minimum: 'کمینه',
   maximum: 'بیشینه',
+  chartTitle: (thingName: string) => `نمودار تغییرات ${thingName} در طول زمان`,
+  name: 'نام',
+  familyName: 'نام خانوادگی',
+  email: 'ایمیل',
+  password: 'رمز عبور',
+  login: 'ورود',
+  signup: 'عضویت',
+  noAccound: 'حساب کاربری ندارید؟',
+  invalideInfoError: 'اطلاعات نامعتبر است',
 };
 
 export default Strings;

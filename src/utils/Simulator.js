@@ -20,8 +20,9 @@ const Simulator = (
         ? {
             id: sens.id,
             value: [val],
+            name: sens.name,
           }
-        : {id: 'error', value: [-1]};
+        : {id: 'error', value: [-1], name: ''};
     });
   const actuatorsValues: Array<{id: string, value: Array<number>}> = things
     .filter(thing => thing.type === 'actuator')
@@ -33,8 +34,9 @@ const Simulator = (
         ? {
             id: act.id,
             value: [parseInt(currAct.value, 10)],
+            name: act.name,
           }
-        : {id: 'error', value: [-1]};
+        : {id: 'error', value: [-1], name: ''};
     });
   let path = [initialState];
   let time = new Array(simDuration);

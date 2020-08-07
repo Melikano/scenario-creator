@@ -6,5 +6,7 @@ const Colors = {
   blueButton: '#4F6CF4',
   lightGray: '#ccc',
   sim: '#990000',
+  mediumGray: '#949494',
+  red: '#c40c0c',
 };
 export default Colors;

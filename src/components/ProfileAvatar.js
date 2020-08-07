@@ -7,6 +7,7 @@ import Colors from '../constants/Colors';
 type userType = {
   email: string,
   name: string,
+  familyName: string,
 };
 type prop = {
   user: userType,
@@ -16,7 +17,7 @@ const ProfileAvatar = ({user}: prop) => (
     <Thumbnail large source={require('../assets/images/user.png')} />
     <View style={styles.details}>
       <Text style={{...SharedStyles.sharedTitleStyle, ...styles.alighRight}}>
-        {user.name}
+        {`${user.name} ${user.familyName}`}
       </Text>
       <Text style={{...SharedStyles.sharedTextStyle, ...styles.alighRight}}>
         {user.email}

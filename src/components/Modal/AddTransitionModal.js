@@ -90,6 +90,7 @@ const AddTransitionModal = ({
             <View style={styles.thingRow}>
               <TextInput
                 style={styles.thingsValueTextInput}
+                keyboardType="numeric"
                 onChangeText={text => {
                   sens.upperBound = text;
                 }}
@@ -99,6 +100,7 @@ const AddTransitionModal = ({
               </Text>
               <TextInput
                 style={styles.thingsValueTextInput}
+                keyboardType="numeric"
                 onChangeText={text => {
                   sens.lowerBound = text;
                 }}

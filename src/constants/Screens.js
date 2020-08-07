@@ -7,5 +7,10 @@ const Screens = {
   scenarioCreated: 'SCENARIO_CREATED_SCREEN',
   initSim: 'INIT_SIM_SCREEN',
   startSim: 'START_SIM_SCREEN',
+  login: 'LOGIN',
+  signUp: 'SIGNUP',
+  mainTab: 'MAIN_TAB',
+  loginSignUp: 'LoginSignUp',
+  splash: 'SPLASH',
 };
 export default Screens;

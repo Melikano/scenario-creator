@@ -153,7 +153,6 @@ const InitSimulationScreen = () => {
             <SharedButton
               buttonType="START"
               onPress={() => {
-                console.log(things);
                 navigation.navigate(Screens.startSim, {
                   duration,
                   things: simReadyThings,

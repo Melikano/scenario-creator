@@ -3,9 +3,8 @@
 import React, {useState} from 'react';
 import {FlatList, View} from 'react-native';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
-import {getData} from '../utils/localStorageUtils';
+import {getMultipleData, getSingleData} from '../utils/localStorageUtils';
 import ScenarioListItem from '../components/ScenarioListItem';
-import {user} from '../constants/mockUser';
 import ProfileAvatar from '../components/ProfileAvatar';
 import SharedHeader from '../sharedComponents/Header';
 import Strings from '../constants/Strings';
@@ -14,13 +13,19 @@ type Props = {};
 const Profile = (props: Props) => {
   const navigation = useNavigation();
   const [scenarios, setScenarios] = useState([]);
-  const getScenarios = async () => {
-    const data = await getData();
-    setScenarios(data);
+  const [user, setUser] = useState({});
+
+  const getInitialData = async () => {
+    const userData = await getSingleData('user');
+    const scenariosData = await getMultipleData('scenario');
+    setUser(userData);
+    setScenarios(scenariosData);
   };
   useFocusEffect(
     React.useCallback(() => {
-      return () => getScenarios();
+      return () => {
+        getInitialData();
+      };
     }, []),
   );
   return (
@@ -32,6 +37,7 @@ const Profile = (props: Props) => {
           return <ScenarioListItem scenario={item} navigation={navigation} />;
         }}
         keyExtractor={item => `${item.name}-${item.dateCreated}`}
+        //$FlowFixMe
         ListHeaderComponent={<ProfileAvatar user={user} />}
       />
     </View>

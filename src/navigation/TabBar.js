@@ -2,6 +2,7 @@ import React from 'react';
 import styled, {css} from 'styled-components/native';
 import {Animated, View} from 'react-native';
 import PropTypes from 'prop-types';
+import Fonts from '../constants/Fonts';
 
 //Wrapper
 const BOTTOM_PADDING = 10;
@@ -29,10 +30,10 @@ const TabButton = styled.TouchableOpacity`
 `;
 
 const Label = styled(Animated.Text)`
-  color: #fff;
+  color: #000;
   font-weight: bold;
   margin-right: ${p => (p.icon ? 8 : 0)};
-  font-family: 'IRANSansMobileFaNum';
+  font-family: IRANSansMobileFaNum;
 `;
 
 const Dot = styled(Animated.View)`
@@ -137,9 +138,15 @@ export default class TabBar extends React.Component {
           //Render Label if tab is selected or if there is no icon
           const renderLabel = () => {
             const label = (
-              <Label icon={tabHasIcon} activeColor={activeColor}>
+              <Animated.Text
+                icon={tabHasIcon}
+                activeColor={activeColor}
+                style={{
+                  marginRight: 10,
+                  fontFamily: Fonts.iransansBold,
+                }}>
                 {labelText}
-              </Label>
+              </Animated.Text>
             );
             if (isRouteActive) {
               return label;
@@ -186,7 +193,13 @@ export default class TabBar extends React.Component {
                 }
               }}>
               {renderLabel()}
-              <View>{tabBarIcon && tabBarIcon({tintColor, size: 12})}</View>
+              <View>
+                {tabBarIcon &&
+                  tabBarIcon({
+                    tintColor,
+                    size: 12,
+                  })}
+              </View>
             </TabButton>
           );
         })}

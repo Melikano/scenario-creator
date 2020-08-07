@@ -10,8 +10,8 @@ const BottomTabBar = (props: Props) => {
     <TabBar
       activeColors={['#e6b580', '#8e87d6', '#c095c9']}
       activeTabBackgrounds={[
-        Colors.blueButton,
-        Colors.blueButton,
+        Colors.lightGray,
+        Colors.lightGray,
         Colors.lightGray,
       ]}
       {

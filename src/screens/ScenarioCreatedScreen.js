@@ -24,7 +24,6 @@ const ScenarioCreatedScreen = () => {
       `scenario-${scenario.name}-${dateCreated}`,
       JSON.stringify(scenario),
     );
-    console.log(dateCreated);
   }, []);
   return (
     <View style={styles.container}>
