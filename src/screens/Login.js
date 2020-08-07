@@ -1,6 +1,13 @@
 //@flow
 import React, {useState} from 'react';
-import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Keyboard,
+  KeyboardAvoidingView,
+} from 'react-native';
 import SharedButton from '../sharedComponents/SharedButton';
 import Strings from '../constants/Strings';
 import BottomLinedInput from '../sharedComponents/BottomLinedInput';
@@ -11,6 +18,7 @@ import Screens from '../constants/Screens';
 import SharedStyles from '../constants/Styles';
 import {Icon} from 'native-base';
 import Fonts from '../constants/Fonts';
+import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 
 //$FlowFixMe
 const Login = function Login({user}) {
@@ -22,9 +30,11 @@ const Login = function Login({user}) {
 
   const validate = () => user !== null && user !== undefined;
   return (
-    <>
+    <KeyboardAvoidingView behavior="position">
       <SharedHeader title={Strings.login} />
-      <View style={styles.inputsContainer}>
+      <TouchableWithoutFeedback
+        onPress={() => Keyboard.dismiss()}
+        style={styles.inputsContainer}>
         <BottomLinedInput
           placeholder={Strings.email}
           onChangeText={setEmail}
@@ -66,8 +76,8 @@ const Login = function Login({user}) {
             </Text>
           </TouchableOpacity>
         </View>
-      </View>
-    </>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -75,7 +85,6 @@ const styles = StyleSheet.create({
   inputsContainer: {
     alignSelf: 'center',
     width: '80%',
-    marginTop: 20,
     flexDirection: 'column',
     justifyContent: 'space-between',
   },
