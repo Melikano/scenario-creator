@@ -26,6 +26,7 @@ export type stateType = {
 export type transType = {
   preState: stateType,
   nextState: stateType,
+  hasReverse: boolean,
   sensorsConditions: ?Array<{
     ...thingType,
     upperBound: string,

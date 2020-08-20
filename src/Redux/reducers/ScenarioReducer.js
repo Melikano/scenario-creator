@@ -36,6 +36,7 @@ const ScenarioReducer = (
         },
       };
     case Actions.ADD_DATE:
+      console.log(action.date);
       return {...state, dateCreated: action.date};
     default:
       return state;

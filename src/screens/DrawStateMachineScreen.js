@@ -86,6 +86,12 @@ const DrawStateMachineScreen = () => {
             (state: stateType) => state.stateNumber === destination,
           ) || initialNextState,
         sensorsConditions,
+        hasReverse:
+          trans.filter(
+            t =>
+              t.nextState.stateNumber === source &&
+              t.preState.stateNumber === destination,
+          ).length > 0,
       };
       dispatch(addTransition(nxtTran));
       setTrans([...trans, nxtTran]);
@@ -137,7 +143,7 @@ const DrawStateMachineScreen = () => {
     <View style={styles.container}>
       <SharedHeader
         title={Strings.newScenrio}
-        showBack={true}
+        showBack
         onBackPress={() => navigation.goBack()}
       />
       <Svg>
@@ -147,6 +153,7 @@ const DrawStateMachineScreen = () => {
             y1={tran.preState.y}
             x2={tran.nextState.x}
             y2={tran.nextState.y}
+            hasReverse={tran.hasReverse}
           />
         ))}
         {states.map((item: stateType) => (

@@ -11,8 +11,9 @@ import Profile from '../screens/Profile';
 import BottomTabBar from '../navigation/BottomTabBar';
 
 const Tab = createBottomTabNavigator();
-
-const MainTab = () => {
+//$FlowFixMe
+const MainTab = ({route}) => {
+  const user = route.params.user;
   return (
     <Tab.Navigator tabBar={props => <BottomTabBar {...props} />}>
       <Tab.Screen
@@ -28,6 +29,7 @@ const MainTab = () => {
       <Tab.Screen
         name="Profile"
         component={Profile}
+        initialParams={{user}}
         options={{
           tabBarLabel: 'سناریوهای من',
           tabBarIcon: ({color, size}) => (

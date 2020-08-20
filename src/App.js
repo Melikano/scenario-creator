@@ -28,7 +28,7 @@ const App: () => React$Node = () => {
     }
     async function fetchUser() {
       const fetcheduser = await getSingleData('user');
-      setUser(fetchUser);
+      setUser(fetcheduser);
       setLoggedIn(fetcheduser !== undefined && fetcheduser !== null);
     }
 
@@ -53,7 +53,11 @@ const App: () => React$Node = () => {
             />
           )}
 
-          <Stack.Screen name={Screens.mainTab} component={MainTab} />
+          <Stack.Screen
+            name={Screens.mainTab}
+            component={MainTab}
+            initialParams={{user}}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

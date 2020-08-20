@@ -8,13 +8,17 @@ type TransitionProps = {
   y1: number,
   x2: number,
   y2: number,
+  hasReverse: boolean,
 };
-const Transition = ({x1, y1, x2, y2}: TransitionProps) => {
+const Transition = ({x1, y1, x2, y2, hasReverse}: TransitionProps) => {
   const offset = Math.abs(x1 - x2);
+  const r = hasReverse ? 2 : -2;
+  console.log(x1);
+  console.log(x2);
   return (
     <Path
-      d={`M${x1} ${y1} C${x1 + offset / 2} ${y1 - offset / 3} ${x2 -
-        offset / 2} ${y2 - offset / 3} ${x2} ${y2}`}
+      d={`M${x1} ${y1} C${x1 + offset / r} ${y1 - offset / r} ${x2 -
+        offset / r} ${y2 - offset / r} ${x2} ${y2}`}
       stroke={Colors.gray}
       strokeWidth={2}
     />

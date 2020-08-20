@@ -11,6 +11,7 @@ type ScenarioListItemProps = {
   navigation: Object,
 };
 const ScenarioListItem = ({scenario, navigation}: ScenarioListItemProps) => {
+  console.log(scenario);
   return (
     <View style={styles.container}>
       <View style={styles.nameDate}>

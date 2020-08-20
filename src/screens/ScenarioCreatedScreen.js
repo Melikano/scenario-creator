@@ -1,27 +1,22 @@
 //@flow
 import React, {useEffect} from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
-import persianDate from 'persian-date';
 import Strings from '../constants/Strings';
 import SharedStyles from '../constants/Styles';
 import {useNavigation} from '@react-navigation/native';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {storeData} from '../utils/localStorageUtils';
-import {addDate} from '../Redux/actions/ScenarioActions';
 import SimulationButton from '../sharedComponents/SimulationButton';
 import SharedButton from '../sharedComponents/SharedButton';
 import Colors from '../constants/Colors';
 import Screens from '../constants/Screens';
 
-const ScenarioCreatedScreen = () => {
+const ScenarioCreatedScreen = ({route}: any) => {
   const navigation = useNavigation();
   const scenario = useSelector(x => x);
-  const dispatch = useDispatch();
   useEffect(() => {
-    const dateCreated = new persianDate().format('YYYY/MM/DD');
-    dispatch(addDate(dateCreated));
     storeData(
-      `scenario-${scenario.name}-${dateCreated}`,
+      `scenario-${scenario.name}-${scenario.dateCreated}`,
       JSON.stringify(scenario),
     );
   }, []);
@@ -43,7 +38,7 @@ const ScenarioCreatedScreen = () => {
         <SharedButton
           title={Strings.newScenrio}
           style={styles.newScenrioBtn}
-          onPress={() => navigation.navigate(Screens.addName)}
+          onPress={() => navigation.navigate(Screens.addName, {reset: true})}
         />
       </View>
     </View>

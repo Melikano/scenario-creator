@@ -1,35 +1,37 @@
 //@flow
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {FlatList, View} from 'react-native';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
-import {getMultipleData, getSingleData} from '../utils/localStorageUtils';
+import {getMultipleData} from '../utils/localStorageUtils';
 import ScenarioListItem from '../components/ScenarioListItem';
 import ProfileAvatar from '../components/ProfileAvatar';
 import SharedHeader from '../sharedComponents/Header';
 import Strings from '../constants/Strings';
 
-type Props = {};
-const Profile = (props: Props) => {
+type Props = {route: any};
+const Profile = ({route}: Props) => {
+  const {user} = route.params;
   const navigation = useNavigation();
   const [scenarios, setScenarios] = useState([]);
-  const [user, setUser] = useState({});
 
-  const getInitialData = async () => {
-    const userData = await getSingleData('user');
-    const scenariosData = await getMultipleData('scenario');
-    setUser(userData);
-    setScenarios(scenariosData);
-  };
-  useFocusEffect(
-    React.useCallback(() => {
-      return () => {
-        getInitialData();
-      };
-    }, []),
-  );
+  useEffect(() => {
+    const getInitialData = async () => {
+      const scenariosData = await getMultipleData('scenario');
+      setScenarios(scenariosData);
+    };
+    getInitialData();
+  }, []);
+
+  useFocusEffect(() => {
+    const getInitialData = async () => {
+      const scenariosData = await getMultipleData('scenario');
+      setScenarios(scenariosData);
+    };
+    getInitialData();
+  }, []);
   return (
-    <View>
+    <View style={{marginBottom: 120}}>
       <SharedHeader title={Strings.myScenarios} showBack={false} />
       <FlatList
         data={scenarios}

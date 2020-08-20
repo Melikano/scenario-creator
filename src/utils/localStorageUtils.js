@@ -9,9 +9,9 @@ export const storeData = async (key: string, value: Object) => {
 };
 export const getMultipleData = async (key: string) => {
   try {
-    const keys = await AsyncStorage.getAllKeys().filter(k => k.startsWith(key));
-    const result = await AsyncStorage.multiGet(keys);
-    console.log(result);
+    const keys = await AsyncStorage.getAllKeys();
+    const filteredKeys = keys.filter(k => k.startsWith(key));
+    const result = await AsyncStorage.multiGet(filteredKeys);
     return result
       .flat()
       .filter(res => !res.startsWith(key))

@@ -1,7 +1,8 @@
 //@flow
-import React, {useState} from 'react';
-import {View, Text, TextInput, StyleSheet, Image} from 'react-native';
+import React, {useState, useCallback} from 'react';
+import {View, Text, TextInput, StyleSheet} from 'react-native';
 import {useDispatch} from 'react-redux';
+import persianDate from 'persian-date';
 import Strings from '../constants/Strings';
 import SharedButton from '../sharedComponents/SharedButton';
 import SharedHeader from '../sharedComponents/Header';
@@ -9,24 +10,32 @@ import sharedStyles from '../constants/Styles';
 import {
   addScenarioName,
   addDescription,
+  addDate,
 } from '../Redux/actions/ScenarioActions';
 import {useNavigation} from '@react-navigation/native';
 import Screens from '../constants/Screens';
 import Colors from '../constants/Colors';
 
-type Props = {
-  addScenarioNameToStore: (name: string) => void,
-};
-const AddNameScreen = ({addScenarioNameToStore}: Props) => {
+const AddNameScreen = ({route}: any) => {
+  const {reset} = route.params;
   const [name, setName] = useState('');
   const [desc, setDesc] = useState('');
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const handleNextClick = () => {
+    const dateCreated = new persianDate().format('YYYY/MM/DD');
+    dispatch(addDate(dateCreated));
     dispatch(addScenarioName(name));
     dispatch(addDescription(desc));
+
     navigation.navigate(Screens.chooseThings);
   };
+  useCallback(() => {
+    if (reset) {
+      setName('');
+      setDesc('');
+    }
+  }, [reset]);
   return (
     <View style={styles.whole}>
       <SharedHeader title={Strings.newScenrio} />

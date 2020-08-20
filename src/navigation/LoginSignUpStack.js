@@ -8,7 +8,11 @@ import SignUp from '../screens/SignUp';
 const Stack = createStackNavigator();
 
 //$FlowFixMe
-const LoginSignUpStack = ({user}) => {
+const LoginSignUpStack = ({
+  route: {
+    params: {user},
+  },
+}) => {
   return (
     <Stack.Navigator
       screenOptions={{

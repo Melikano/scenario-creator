@@ -32,7 +32,7 @@ const ChooseThingsScreen = () => {
             <SharedButton
               buttonType="PREV"
               onPress={() => {
-                navigation.goBack();
+                navigation.goBack({reset: false});
               }}
             />
             <SharedButton
