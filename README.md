@@ -1,2 +1,2 @@
 # scenario-creator
-my bc's project at AUT
+my Bcs project at AUT
