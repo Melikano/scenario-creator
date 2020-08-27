@@ -47,6 +47,8 @@ const ScenarioCreatedScreen = ({route}: any) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
+    backgroundColor: Colors.white,
+    flex: 1,
   },
   imageStyle: {
     marginTop: 30,

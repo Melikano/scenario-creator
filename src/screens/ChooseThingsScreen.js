@@ -22,6 +22,7 @@ const ChooseThingsScreen = () => {
       />
       <FlatList
         data={MockThings}
+        style={{backgroundColor: Colors.white}}
         numColumns={2}
         renderItem={({item}) => item && <ThingCard thing={item} />}
         ListHeaderComponent={() => (

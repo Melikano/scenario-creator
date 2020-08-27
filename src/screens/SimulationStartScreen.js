@@ -61,18 +61,6 @@ const SimulationStartScreen = () => {
           </>
         ))}
       </View>
-
-      <View style={styles.chartContainer}>
-        <>
-          <Text style={styles.chartTitle}>{Strings.chartTitle('حالت‌ها')}</Text>
-          <BarChart
-            data={path.map((v, index) => ({
-              label: index.toString(),
-              value: v.stateNumber,
-            }))}
-          />
-        </>
-      </View>
     </ScrollView>
   );
 };

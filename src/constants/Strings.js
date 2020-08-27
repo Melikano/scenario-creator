@@ -49,6 +49,7 @@ const Strings = {
   signup: 'عضویت',
   noAccound: 'حساب کاربری ندارید؟',
   invalideInfoError: 'اطلاعات نامعتبر است',
+  edit: 'ویرایش',
 };
 
 export default Strings;

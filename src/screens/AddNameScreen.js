@@ -15,6 +15,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import Screens from '../constants/Screens';
 import Colors from '../constants/Colors';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 
 const AddNameScreen = ({route}: any) => {
   const {reset} = route.params;
@@ -37,7 +38,7 @@ const AddNameScreen = ({route}: any) => {
     }
   }, [reset]);
   return (
-    <View style={styles.whole}>
+    <KeyboardAwareScrollView style={styles.whole}>
       <SharedHeader title={Strings.newScenrio} />
       <View style={styles.container}>
         <View style={styles.section}>
@@ -61,11 +62,12 @@ const AddNameScreen = ({route}: any) => {
             onChangeText={text => setDesc(text)}
             value={desc}
             placeholder={Strings.description}
+            multiline
           />
         </View>
         <SharedButton buttonType="NEXT" onPress={handleNextClick} />
       </View>
-    </View>
+    </KeyboardAwareScrollView>
   );
 };
 const styles = StyleSheet.create({

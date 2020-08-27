@@ -1,21 +1,23 @@
 //@flow
 import React from 'react';
+import {Dimensions} from 'react-native';
 import {Svg, G, Rect, Text, Line} from 'react-native-svg';
 import * as d3 from 'd3';
 
 const GRAPH_MARGIN = 20;
-const GRAPH_BAR_WIDTH = 5;
+const GRAPH_BAR_WIDTH = 2;
 const colors = {
   axis: '#E4E4E4',
   bars: '#15AD13',
 };
 
+const {width, height} = Dimensions.get('window');
 type BarChartProps = {
   data: Array<any>,
 };
 const BarChart = ({data}: BarChartProps) => {
   // Dimensions
-  const SVGHeight = 150;
+  const SVGHeight = 200;
   const SVGWidth = 300;
   const graphHeight = SVGHeight - 2 * GRAPH_MARGIN;
   const graphWidth = SVGWidth - 2 * GRAPH_MARGIN;

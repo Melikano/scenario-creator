@@ -1,13 +1,7 @@
 //@flow
 import React, {useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  Keyboard,
-  KeyboardAvoidingView,
-} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 import SharedButton from '../sharedComponents/SharedButton';
 import Strings from '../constants/Strings';
 import BottomLinedInput from '../sharedComponents/BottomLinedInput';
@@ -18,7 +12,6 @@ import Screens from '../constants/Screens';
 import SharedStyles from '../constants/Styles';
 import {Icon} from 'native-base';
 import Fonts from '../constants/Fonts';
-import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 
 //$FlowFixMe
 const Login = function Login({user}) {
@@ -30,11 +23,11 @@ const Login = function Login({user}) {
 
   const validate = () => user !== null && user !== undefined;
   return (
-    <KeyboardAvoidingView behavior="position">
+    <KeyboardAwareScrollView
+      behavior="position"
+      style={{backgroundColor: Colors.white, flex: 1}}>
       <SharedHeader title={Strings.login} />
-      <TouchableWithoutFeedback
-        onPress={() => Keyboard.dismiss()}
-        style={styles.inputsContainer}>
+      <View style={styles.inputsContainer}>
         <BottomLinedInput
           placeholder={Strings.email}
           onChangeText={setEmail}
@@ -76,8 +69,8 @@ const Login = function Login({user}) {
             </Text>
           </TouchableOpacity>
         </View>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+      </View>
+    </KeyboardAwareScrollView>
   );
 };
 
@@ -87,6 +80,7 @@ const styles = StyleSheet.create({
     width: '80%',
     flexDirection: 'column',
     justifyContent: 'space-between',
+    backgroundColor: Colors.white,
   },
   btnStyle: {
     backgroundColor: Colors.blueButton,

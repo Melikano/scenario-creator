@@ -1,13 +1,7 @@
 //@flow
 import React, {useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from 'react-native';
+import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 import SharedButton from '../sharedComponents/SharedButton';
 import Strings from '../constants/Strings';
 import {storeData} from '../utils/localStorageUtils';
@@ -27,56 +21,54 @@ const SignUp = function SignUp() {
     await storeData('user', JSON.stringify(user));
   };
   return (
-    <KeyboardAvoidingView behavior="position">
+    <KeyboardAwareScrollView style={{backgroundColor: Colors.white}}>
       <SharedHeader
         title={Strings.signup}
         showBack
         onBackPress={() => navigation.navigate(Screens.login)}
       />
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={styles.inputsContainer}>
-          <BottomLinedInput
-            placeholder={Strings.name}
-            onChangeText={name => setUser({...user, name})}
-            value={user.name || ''}
+      <View style={styles.inputsContainer}>
+        <BottomLinedInput
+          placeholder={Strings.name}
+          onChangeText={name => setUser({...user, name})}
+          value={user.name || ''}
+        />
+        <BottomLinedInput
+          placeholder={Strings.familyName}
+          onChangeText={familyName => setUser({...user, familyName})}
+          value={user.familyName || ''}
+        />
+        <BottomLinedInput
+          placeholder={Strings.email}
+          onChangeText={email => setUser({...user, email})}
+          value={user.email || ''}
+        />
+        <BottomLinedInput
+          placeholder={Strings.password}
+          onChangeText={password => setUser({...user, password})}
+          secureTextEntry={showPass}
+          value={user.password || ''}
+          textAlign="right"
+        />
+        <TouchableOpacity
+          onPress={() => setShowPass(!showPass)}
+          style={styles.showPass}>
+          <Icon
+            type={'Feather'}
+            name={showPass ? 'eye' : 'eye-off'}
+            style={styles.showPassIcon}
           />
-          <BottomLinedInput
-            placeholder={Strings.familyName}
-            onChangeText={familyName => setUser({...user, familyName})}
-            value={user.familyName || ''}
-          />
-          <BottomLinedInput
-            placeholder={Strings.email}
-            onChangeText={email => setUser({...user, email})}
-            value={user.email || ''}
-          />
-          <BottomLinedInput
-            placeholder={Strings.password}
-            onChangeText={password => setUser({...user, password})}
-            secureTextEntry={showPass}
-            value={user.password || ''}
-            textAlign="right"
-          />
-          <TouchableOpacity
-            onPress={() => setShowPass(!showPass)}
-            style={styles.showPass}>
-            <Icon
-              type={'Feather'}
-              name={showPass ? 'eye' : 'eye-off'}
-              style={styles.showPassIcon}
-            />
-          </TouchableOpacity>
-          <SharedButton
-            title={Strings.confirm}
-            style={styles.btnStyle}
-            onPress={() => {
-              saveUser();
-              navigation.navigate(Screens.mainTab);
-            }}
-          />
-        </View>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+        </TouchableOpacity>
+        <SharedButton
+          title={Strings.confirm}
+          style={styles.btnStyle}
+          onPress={() => {
+            saveUser();
+            navigation.navigate(Screens.mainTab);
+          }}
+        />
+      </View>
+    </KeyboardAwareScrollView>
   );
 };
 

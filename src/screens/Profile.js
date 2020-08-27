@@ -8,6 +8,7 @@ import ScenarioListItem from '../components/ScenarioListItem';
 import ProfileAvatar from '../components/ProfileAvatar';
 import SharedHeader from '../sharedComponents/Header';
 import Strings from '../constants/Strings';
+import Colors from '../constants/Colors';
 
 type Props = {route: any};
 const Profile = ({route}: Props) => {
@@ -21,17 +22,19 @@ const Profile = ({route}: Props) => {
       setScenarios(scenariosData);
     };
     getInitialData();
+    console.log('effect');
   }, []);
 
-  useFocusEffect(() => {
-    const getInitialData = async () => {
-      const scenariosData = await getMultipleData('scenario');
-      setScenarios(scenariosData);
-    };
-    getInitialData();
-  }, []);
+  // useFocusEffect(() => {
+  //   const getInitialData = async () => {
+  //     const scenariosData = await getMultipleData('scenario');
+  //     setScenarios(scenariosData);
+  //   };
+  //   getInitialData();
+  //   console.log('focuse');
+  // }, [scenarios]);
   return (
-    <View style={{marginBottom: 120}}>
+    <View style={{marginBottom: 120, backgroundColor: Colors.white}}>
       <SharedHeader title={Strings.myScenarios} showBack={false} />
       <FlatList
         data={scenarios}
