@@ -1,11 +1,11 @@
 //@flow
 import React from 'react';
-import {Dimensions} from 'react-native';
-import {Svg, G, Rect, Text, Line} from 'react-native-svg';
+import {Dimensions, Text, View} from 'react-native';
+import {Svg, G, Rect, Line} from 'react-native-svg';
 import * as d3 from 'd3';
 
-const GRAPH_MARGIN = 20;
-const GRAPH_BAR_WIDTH = 2;
+const GRAPH_MARGIN = 10;
+const GRAPH_BAR_WIDTH = 3;
 const colors = {
   axis: '#E4E4E4',
   bars: '#15AD13',
@@ -18,7 +18,7 @@ type BarChartProps = {
 const BarChart = ({data}: BarChartProps) => {
   // Dimensions
   const SVGHeight = 200;
-  const SVGWidth = 300;
+  const SVGWidth = width;
   const graphHeight = SVGHeight - 2 * GRAPH_MARGIN;
   const graphWidth = SVGWidth - 2 * GRAPH_MARGIN;
 
@@ -52,29 +52,32 @@ const BarChart = ({data}: BarChartProps) => {
           strokeWidth="0.5"
         />
         {/* bars */}
-        {data.map(item => (
-          <Rect
-            key={'bar' + item.label}
-            x={x(item.label) - GRAPH_BAR_WIDTH / 2}
-            y={y(item.value) * -1}
-            rx={2.5}
-            width={GRAPH_BAR_WIDTH}
-            height={y(item.value)}
-            fill={colors.bars}
-          />
-        ))}
-
-        {/* labels */}
-        {data.map(item => (
-          <Text
-            key={'label' + item.label}
-            fontSize="12"
-            x={x(item.label)}
-            y="10"
-            textAnchor="middle">
-            {item.label}
-          </Text>
-        ))}
+        {data.map(item => {
+          const left = x(item.label) - GRAPH_BAR_WIDTH / 2;
+          console.log(item.value);
+          return (
+            <View style={{marginRight: 10}}>
+              <Rect
+                key={'bar' + item.label}
+                x={x(item.label) - GRAPH_BAR_WIDTH / 2}
+                y={y(item.value) * -1}
+                rx={2.5}
+                width={GRAPH_BAR_WIDTH}
+                height={item.value === 0 ? 0 : y(item.value)}
+                fill={colors.bars}
+              />
+              <Text
+                style={{
+                  position: 'absolute',
+                  left,
+                  fontSize: 8,
+                  top: 180,
+                }}>
+                {Math.floor(item.value)}
+              </Text>
+            </View>
+          );
+        })}
       </G>
     </Svg>
   );

@@ -146,7 +146,7 @@ const DrawStateMachineScreen = () => {
         showBack
         onBackPress={() => navigation.goBack()}
       />
-      <Svg>
+      <Svg style={{marginTop: 30}}>
         {trans.map((tran: transType) => (
           <Transition
             x1={tran.preState.x}

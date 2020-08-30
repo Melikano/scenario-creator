@@ -19,6 +19,13 @@ const MockThings = [
     description: 'میزان نور را بر اساس درصد بیان می کند',
   },
   {
+    id: 'SmokeSensor',
+    name: 'سنسور دود',
+    type: 'sensor',
+    description:
+      'میزارن گاز کربن دی‌اکسید موجود در محیط را بر اساس درصد مشخص می‌کند',
+  },
+  {
     id: 'waterActuator',
     name: 'عملگر آب',
     type: 'actuator',
@@ -29,6 +36,12 @@ const MockThings = [
     name: 'عملگر روشنایی',
     type: 'actuator',
     description: 'روشنایی را کم یا زیاد می کند',
+  },
+  {
+    id: 'AlarmActuator',
+    name: 'سیستم هشدار',
+    type: 'actuator',
+    description: 'در صورت فعال شدن با تولید صدا اعلام هشدار می‌کند',
   },
 ];
 export default MockThings;

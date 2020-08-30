@@ -50,6 +50,8 @@ const Strings = {
   noAccound: 'حساب کاربری ندارید؟',
   invalideInfoError: 'اطلاعات نامعتبر است',
   edit: 'ویرایش',
+  showNumbers: 'مشاهده اعداد',
+  showDiagrams: 'مشاهده نمودار',
 };
 
 export default Strings;

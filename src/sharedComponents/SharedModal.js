@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     backgroundColor: 'white',
-    width: '80%',
+    width: '100%',
     alignSelf: 'center',
     padding: 20,
     alignItems: 'center',

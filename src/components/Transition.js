@@ -12,7 +12,7 @@ type TransitionProps = {
 };
 const Transition = ({x1, y1, x2, y2, hasReverse}: TransitionProps) => {
   const offset = Math.abs(x1 - x2);
-  const r = hasReverse ? 2 : -2;
+  const r = hasReverse ? 3 : -3;
   console.log(x1);
   console.log(x2);
   return (

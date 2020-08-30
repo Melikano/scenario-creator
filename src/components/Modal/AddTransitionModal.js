@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
   thingsContainer: {
     flexDirection: 'column',
     marginTop: 20,
-    width: '80%',
+    width: '90%',
     alignSelf: 'center',
   },
   thingRow: {

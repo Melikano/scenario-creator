@@ -156,6 +156,7 @@ const InitSimulationScreen = () => {
                 navigation.navigate(Screens.startSim, {
                   duration,
                   things: simReadyThings,
+                  scenario,
                 });
               }}
             />

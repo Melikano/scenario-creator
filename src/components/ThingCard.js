@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.iransansBold,
     color: Colors.gray,
     fontSize: 18,
+    textAlign: 'center',
   },
   cardDesc: {
     fontFamily: Fonts.iransans,

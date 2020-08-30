@@ -11,6 +11,8 @@ const Simulator = (
   simDuration: number,
 ) => {
   const initialState: stateType = states[0];
+  console.log('here here here here here');
+  console.log(states);
   let currentState: stateType = initialState;
   const sensorsData: Array<{id: string, value: Array<number>}> = things
     .filter(thing => thing.type === 'sensor')

@@ -22,17 +22,15 @@ const Profile = ({route}: Props) => {
       setScenarios(scenariosData);
     };
     getInitialData();
-    console.log('effect');
   }, []);
 
-  // useFocusEffect(() => {
-  //   const getInitialData = async () => {
-  //     const scenariosData = await getMultipleData('scenario');
-  //     setScenarios(scenariosData);
-  //   };
-  //   getInitialData();
-  //   console.log('focuse');
-  // }, [scenarios]);
+  useFocusEffect(() => {
+    const getInitialData = async () => {
+      const scenariosData = await getMultipleData('scenario');
+      setScenarios(scenariosData);
+    };
+    getInitialData();
+  }, [scenarios]);
   return (
     <View style={{marginBottom: 120, backgroundColor: Colors.white}}>
       <SharedHeader title={Strings.myScenarios} showBack={false} />

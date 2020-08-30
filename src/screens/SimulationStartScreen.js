@@ -12,23 +12,25 @@ import {View, Text} from 'native-base';
 import SharedHeader from '../sharedComponents/Header';
 import Fonts from '../constants/Fonts';
 import Strings from '../constants/Strings';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 
 const SimulationStartScreen = () => {
-  const {duration, things} = useRoute().params;
-  console.log(things);
+  const {duration, things, scenario} = useRoute().params;
   const fsm = useSelector(state => state.fsm);
 
+  const passedFsm =
+    fsm.states.length > 0 && fsm.transitions.length > 0 ? fsm : scenario.fsm;
+  console.log(passedFsm);
   const {path, sensorsData, actuatorsValues} = Simulator(
-    fsm,
+    passedFsm,
     things.map(resolveFunction),
     duration,
   );
-  console.log(path);
   console.log(sensorsData);
   console.log(actuatorsValues);
-  return (
+
+  const renderDiagrams = () => (
     <ScrollView>
-      <SharedHeader title="نتایج شبیه‌سازی" />
       <View style={styles.chartContainer}>
         {sensorsData.map(sens => (
           <>
@@ -63,11 +65,16 @@ const SimulationStartScreen = () => {
       </View>
     </ScrollView>
   );
+  return (
+    <KeyboardAwareScrollView>
+      <SharedHeader title="نتایج شبیه‌سازی" />
+      {renderDiagrams()}
+    </KeyboardAwareScrollView>
+  );
 };
 const resolveFunction = (thing: thingType) => {
   const distFunc = thing.distributionFuntion;
   if (distFunc) {
-    console.log(distFunc.funcName);
     switch (distFunc.funcName) {
       case DistFuncs.Uniform:
         const newc = {
