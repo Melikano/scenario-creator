@@ -52,6 +52,7 @@ const Strings = {
   edit: 'ویرایش',
   showNumbers: 'مشاهده اعداد',
   showDiagrams: 'مشاهده نمودار',
+  repeat: 'تکرار',
 };
 
 export default Strings;

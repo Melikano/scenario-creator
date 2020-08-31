@@ -17,6 +17,7 @@ import Fonts from '../constants/Fonts';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import Screens from '../constants/Screens';
 import DistFuncs from '../constants/DistFunctions';
+import { KeyboardAwareListView } from 'react-native-keyboard-aware-scrollview';
 
 const InitSimulationScreen = () => {
   const navigation = useNavigation();
@@ -118,7 +119,7 @@ const InitSimulationScreen = () => {
           ),
         );
   return (
-    <SafeAreaView style={styles.container}>
+    <KeyboardAwareListView style={styles.container}>
       <FlatList
         data={things.filter(thing => thing.type === 'sensor')}
         renderItem={({item}) => (
@@ -163,7 +164,7 @@ const InitSimulationScreen = () => {
           </View>
         }
       />
-    </SafeAreaView>
+    </KeyboardAwareListView>
   );
 };
 const styles = StyleSheet.create({

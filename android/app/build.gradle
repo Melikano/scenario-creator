@@ -122,10 +122,10 @@ def enableHermes = project.ext.react.get("enableHermes", false);
 android {
     signingConfigs {
         release {
-            storeFile file('melika-key.keystore')
-            storePassword 'melika123nb'
-            keyAlias 'melika-key'
-            keyPassword 'melika123nb'
+            storeFile file('melikan-key.keystore')
+            storePassword 'melikanpass'
+            keyAlias 'melikan-key'
+            keyPassword 'melikanpass'
         }
     }
 

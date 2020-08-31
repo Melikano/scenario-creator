@@ -1,6 +1,6 @@
 //@flow
 import React, {useState, useCallback} from 'react';
-import {View, Text, TextInput, StyleSheet} from 'react-native';
+import {View, Text, TextInput, StyleSheet, Keyboard} from 'react-native';
 import {useDispatch} from 'react-redux';
 import persianDate from 'persian-date';
 import Strings from '../constants/Strings';
@@ -16,6 +16,7 @@ import {useNavigation} from '@react-navigation/native';
 import Screens from '../constants/Screens';
 import Colors from '../constants/Colors';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
+import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 
 const AddNameScreen = ({route}: any) => {
   const {reset} = route.params;
@@ -39,34 +40,36 @@ const AddNameScreen = ({route}: any) => {
   }, [reset]);
   return (
     <KeyboardAwareScrollView style={styles.whole}>
-      <SharedHeader title={Strings.newScenrio} />
-      <View style={styles.container}>
-        <View style={styles.section}>
-          <Text style={{...sharedStyles.sharedTextStyle, ...styles.text}}>
-            {Strings.chooseName}
-          </Text>
-          <TextInput
-            style={styles.textInput}
-            onChangeText={text => setName(text)}
-            value={name}
-            placeholder={Strings.scenarioName}
-          />
-        </View>
-        <View style={styles.section}>
-          <Text style={{...sharedStyles.sharedTextStyle, ...styles.text}}>
-            {Strings.addDescription}
-          </Text>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <SharedHeader title={Strings.newScenrio} />
+        <View style={styles.container}>
+          <View style={styles.section}>
+            <Text style={{...sharedStyles.sharedTextStyle, ...styles.text}}>
+              {Strings.chooseName}
+            </Text>
+            <TextInput
+              style={styles.textInput}
+              onChangeText={text => setName(text)}
+              value={name}
+              placeholder={Strings.scenarioName}
+            />
+          </View>
+          <View style={styles.section}>
+            <Text style={{...sharedStyles.sharedTextStyle, ...styles.text}}>
+              {Strings.addDescription}
+            </Text>
 
-          <TextInput
-            style={{...styles.textInput, ...styles.descInput}}
-            onChangeText={text => setDesc(text)}
-            value={desc}
-            placeholder={Strings.description}
-            multiline
-          />
+            <TextInput
+              style={{...styles.textInput, ...styles.descInput}}
+              onChangeText={text => setDesc(text)}
+              value={desc}
+              placeholder={Strings.description}
+              multiline
+            />
+          </View>
+          <SharedButton buttonType="NEXT" onPress={handleNextClick} />
         </View>
-        <SharedButton buttonType="NEXT" onPress={handleNextClick} />
-      </View>
+      </TouchableWithoutFeedback>
     </KeyboardAwareScrollView>
   );
 };
