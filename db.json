@@ -1,0 +1,48 @@
+{
+	"things":
+	[
+  {
+    "id": "tempSensor",
+    "name": "سنسور دما'",
+    "type": "sensor",
+    "description": "این سنسور می تواند دماهای بین -۲۰ تا ۵۰ را اندازه گیری کند"
+  },
+  {
+    "id": "humSensor",
+    "name": "سنسور رطوبت",
+    "type": "sensor",
+    "description": "رطوبت را بر اساس درصد بیان می کند"
+  },
+  {
+    "id": "lightSensor",
+    "name": "سنسور روشنایی",
+    "type": "sensor",
+    "description": "میزان نور را بر اساس درصد بیان می کد"
+  },
+  {
+    "id": "SmokeSensor",
+    "name": "سنسور دود",
+    "type": "sensor",
+    "description":
+      "میزارن گاز کربن ی‌اکسید موجود در محیط را بر اساس درصد مشخص می‌کند"
+  },
+  {
+    "id": "waterActuator",
+    "name": "عملگر آب",
+    "type": "actuator",
+    "description": "زمین را آبیاری می کند یا نمی کند"
+  },
+  {
+    "id": "lightActuator",
+    "name": "عملگر روشنای",
+    "type": "actuator",
+    "description": "روشنایی را کم یا زیاد می کند"
+  },
+  {
+    "id": "AlarmActuator",
+   "name": "سیستم هشدار",
+    "type": "actuator",
+    "description": "در صورت فعال شدن با تولید صدا اعلام هشدار می‌کند"
+  }
+]
+}

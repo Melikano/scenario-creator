@@ -1,8 +1,8 @@
 //@flow
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, FlatList, Text, View} from 'react-native';
+import {Spinner} from 'native-base';
 import ThingCard from '../components/ThingCard';
-import MockThings from '../constants/MockThings';
 import Fonts from '../constants/Fonts';
 import Colors from '../constants/Colors';
 import Strings from '../constants/Strings';
@@ -10,9 +10,23 @@ import SharedButton from '../sharedComponents/SharedButton';
 import SharedHeader from '../sharedComponents/Header';
 import {useNavigation} from '@react-navigation/native';
 import Screens from '../constants/Screens';
+import {fetchData} from '../utils/dataFetchingUtils';
+import MockThings from '../constants/MockThings';
 
 const ChooseThingsScreen = () => {
+  const [things, setThings] = useState([]);
   const navigation = useNavigation();
+
+  useEffect(() => {
+    const fetchThings = async () => {
+      const result = await fetchData('http://192.168.43.202:3000/things');
+      result.length === 0
+        ? setTimeout(() => setThings(MockThings), 2000)
+        : setThings(result);
+    };
+
+    fetchThings();
+  });
   return (
     <>
       <SharedHeader
@@ -20,31 +34,35 @@ const ChooseThingsScreen = () => {
         showBack={true}
         onBackPress={() => navigation.goBack()}
       />
-      <FlatList
-        data={MockThings}
-        style={{backgroundColor: Colors.white}}
-        numColumns={2}
-        renderItem={({item}) => item && <ThingCard thing={item} />}
-        ListHeaderComponent={() => (
-          <Text style={styles.title}>{Strings.chooseThings}</Text>
-        )}
-        ListFooterComponent={() => (
-          <View style={styles.buttonContainer}>
-            <SharedButton
-              buttonType="PREV"
-              onPress={() => {
-                navigation.goBack({reset: false});
-              }}
-            />
-            <SharedButton
-              buttonType="NEXT"
-              onPress={() => {
-                navigation.navigate(Screens.drawStateMachine);
-              }}
-            />
-          </View>
-        )}
-      />
+      {things.length === 0 ? (
+        <Spinner color="gray" />
+      ) : (
+        <FlatList
+          data={things}
+          style={{backgroundColor: Colors.white}}
+          numColumns={2}
+          renderItem={({item}) => item && <ThingCard thing={item} />}
+          ListHeaderComponent={() => (
+            <Text style={styles.title}>{Strings.chooseThings}</Text>
+          )}
+          ListFooterComponent={() => (
+            <View style={styles.buttonContainer}>
+              <SharedButton
+                buttonType="PREV"
+                onPress={() => {
+                  navigation.goBack({reset: false});
+                }}
+              />
+              <SharedButton
+                buttonType="NEXT"
+                onPress={() => {
+                  navigation.navigate(Screens.drawStateMachine);
+                }}
+              />
+            </View>
+          )}
+        />
+      )}
     </>
   );
 };
