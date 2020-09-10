@@ -30,14 +30,14 @@ const AddStateOrTransButton = ({
       onPress={() => setExpanded(false)}>
       <TouchableOpacity
         style={styles.expandedAddButton}
-        onPress={() => handlePress('state')}>
+        onPress={() => handlePress('addState')}>
         <Text style={SharedStyles.sharedButtonTextStyle}>
           {Strings.addState}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.expandedAddButton}
-        onPress={() => handlePress('tran')}>
+        onPress={() => handlePress('addTran')}>
         <Text style={SharedStyles.sharedButtonTextStyle}>
           {Strings.addTransition}
         </Text>

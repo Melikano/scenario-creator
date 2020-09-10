@@ -51,8 +51,15 @@ const Strings = {
   invalideInfoError: 'اطلاعات نامعتبر است',
   edit: 'ویرایش',
   showNumbers: 'مشاهده اعداد',
-  showDiagrams: 'مشاهده نمودار',
+  showDiagrams: 'نمودار',
   repeat: 'تکرار',
+  ok: 'باشه',
+  stateNumber: 'شماره حالت',
+  actuatorValues: 'مقادیر عملگرها',
+  sensorsConditions: 'شرایط سنسورها',
+  end: 'پایان',
+  path: 'مسیر',
+  stateName: 'نام حالت',
 };
 
 export default Strings;

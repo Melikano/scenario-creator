@@ -13,39 +13,59 @@ import SharedStyles from '../constants/Styles';
 import Strings from '../constants/Strings';
 import Colors from '../constants/Colors';
 type SharedModalProps = {
-  onConfirm: Function,
+  isConfirmationModal?: boolean,
+  onConfirm?: Function,
   onCancel: Function,
   children: Array<React.Element<any>>,
 };
-const SharedModal = ({onConfirm, onCancel, children}: SharedModalProps) => {
+const SharedModal = ({
+  isConfirmationModal = true,
+  onConfirm = () => {},
+  onCancel,
+  children,
+}: SharedModalProps) => {
   return (
     <Modal visible transparent>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.modalBackground}>
           <View style={styles.modalContainer}>
             {children}
-            <View style={styles.buttonContainer}>
+            {isConfirmationModal ? (
+              <View style={styles.buttonContainer}>
+                <Button
+                  onPress={onCancel}
+                  style={{
+                    ...SharedStyles.sharedButtonStyle,
+                    ...styles.modalButton,
+                  }}>
+                  <Text style={SharedStyles.sharedButtonTextStyle}>
+                    {Strings.cancel}
+                  </Text>
+                </Button>
+                <Button
+                  onPress={onConfirm}
+                  style={{
+                    ...SharedStyles.sharedButtonStyle,
+                    ...styles.modalButton,
+                  }}>
+                  <Text style={SharedStyles.sharedButtonTextStyle}>
+                    {Strings.confirm}
+                  </Text>
+                </Button>
+              </View>
+            ) : (
               <Button
                 onPress={onCancel}
                 style={{
                   ...SharedStyles.sharedButtonStyle,
                   ...styles.modalButton,
+                  alignSelf: 'flex-start',
                 }}>
                 <Text style={SharedStyles.sharedButtonTextStyle}>
-                  {Strings.cancel}
+                  {Strings.ok}
                 </Text>
               </Button>
-              <Button
-                onPress={onConfirm}
-                style={{
-                  ...SharedStyles.sharedButtonStyle,
-                  ...styles.modalButton,
-                }}>
-                <Text style={SharedStyles.sharedButtonTextStyle}>
-                  {Strings.confirm}
-                </Text>
-              </Button>
-            </View>
+            )}
           </View>
         </View>
       </TouchableWithoutFeedback>

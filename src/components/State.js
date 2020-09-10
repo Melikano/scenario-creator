@@ -1,15 +1,15 @@
 //@flow
-import React from 'react';
+import React, {useState} from 'react';
 import {Circle, Text} from 'react-native-svg';
 import Colors from '../constants/Colors';
 import Fonts from '../constants/Fonts';
-
+import type {stateType} from '../constants/Types';
 type StateProps = {
-  stateNumber: number,
-  x: number,
-  y: number,
+  onStatePress: Function,
+  state: stateType,
 };
-const State = ({stateNumber, x, y}: StateProps) => {
+const State = ({state, onStatePress}: StateProps) => {
+  const {x, y, stateNumber} = state;
   return (
     <>
       <Circle
@@ -19,6 +19,7 @@ const State = ({stateNumber, x, y}: StateProps) => {
         fill={Colors.white}
         strokeWidth={3}
         stroke={Colors.gray}
+        onPress={onStatePress}
       />
       <Text
         x={x}

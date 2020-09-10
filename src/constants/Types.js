@@ -18,6 +18,7 @@ export type thingType = {
 };
 export type stateType = {
   stateNumber: number,
+  stateName: string,
   x: number,
   y: number,
   actuatorsValues?: ?Array<{...thingType, value: string}>,

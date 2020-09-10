@@ -6,7 +6,7 @@ import {Svg} from 'react-native-svg';
 import State from '../components/State';
 import Transition from '../components/Transition';
 import AddStateOrTransButton from '../components/AddStateOrTransButton';
-import {StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet, Dimensions, TouchableOpacity} from 'react-native';
 import Strings from '../constants/Strings';
 import SharedStyles from '../constants/Styles';
 import Colors from '../constants/Colors';
@@ -18,6 +18,8 @@ import AddTransitionModal from '../components/Modal/AddTransitionModal';
 import {useNavigation} from '@react-navigation/native';
 import Screens from '../constants/Screens';
 import SharedHeader from '../sharedComponents/Header';
+import ShowStateDetailsModal from '../components/Modal/ShowStateDetailsModal';
+import ShowTranDetailsModal from '../components/Modal/ShowTranDetailsModal';
 
 const {height} = Dimensions.get('window');
 
@@ -26,35 +28,42 @@ const DrawStateMachineScreen = () => {
     stateNumber: 1,
     x: 40,
     y: 100,
+    stateName: '',
   };
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const emptyModal = {
+    type: '',
+    modalVisibility: false,
+    state: null,
+    tran: null,
+  };
   const [states, setStates] = useState([]);
   const [trans, setTrans] = useState([]);
-  const [currentModal, setCurrentModal] = useState({
-    addState: false,
-    addTrans: false,
-  });
+  const [currentModal, setCurrentModal] = useState(emptyModal);
   const [nextState, setNextState] = useState(initialNextState);
+
+  const resetModal = () => {
+    setCurrentModal(emptyModal);
+  };
   const handleShowModal = (
     modalVisibility: boolean,
     completed: boolean,
     modalType: string,
+    state?: stateType,
+    tran?: transType,
   ) => {
-    setCurrentModal(
-      modalType === 'state'
-        ? {addState: modalVisibility}
-        : {addTrans: modalVisibility},
-    );
+    setCurrentModal({type: modalType, modalVisibility, state, tran});
     return completed;
   };
 
   const handleAddState = (
     addConfirmed: boolean,
     actuatorsValues: ?Array<{...thingType, value: string}>,
+    stateName: string,
   ) => {
     if (addConfirmed) {
-      const nxtState = {...nextState, actuatorsValues};
+      const nxtState = {...nextState, actuatorsValues, stateName};
       dispatch(addState(nxtState));
       setStates([...states, nxtState]);
       const {x, y} = computeNexStateCoordinates(nextState.x, nextState.y);
@@ -62,6 +71,7 @@ const DrawStateMachineScreen = () => {
         stateNumber: nextState.stateNumber + 1,
         x,
         y,
+        stateName,
       });
     }
   };
@@ -102,10 +112,12 @@ const DrawStateMachineScreen = () => {
     modalVisibility: boolean,
     stateCompleted: boolean,
     actuatorsValues: ?Array<{...thingType, value: string}>,
+    stateName: ?string,
   ) => {
     handleAddState(
-      handleShowModal(modalVisibility, stateCompleted, 'state'),
+      handleShowModal(modalVisibility, stateCompleted, 'addState'),
       actuatorsValues,
+      stateName || '',
     );
   };
 
@@ -121,24 +133,50 @@ const DrawStateMachineScreen = () => {
     }>,
   ) => {
     handleAddTrans(
-      handleShowModal(modalVisibility, completed, 'trans'),
+      handleShowModal(modalVisibility, completed, 'addTrans'),
       source,
       destination,
       sensorsConditions,
     );
   };
 
-  const renderModal = (modal: Object) =>
-    modal.addState ? (
-      <AddStateModal
-        stateNumber={nextState.stateNumber}
-        handleToggleVisibility={handleToggleVisibilityStateModal}
-      />
-    ) : modal.addTrans ? (
-      <AddTransitionModal
-        handleModalVisibility={handleToggleVisibilityTransModal}
-      />
-    ) : null;
+  const renderModal = (modal: Object) => {
+    console.log(modal);
+    switch (modal.type) {
+      case 'addState':
+        return (
+          modal.modalVisibility && (
+            <AddStateModal
+              stateNumber={nextState.stateNumber}
+              handleToggleVisibility={handleToggleVisibilityStateModal}
+            />
+          )
+        );
+      case 'addTran':
+        return (
+          modal.modalVisibility && (
+            <AddTransitionModal
+              handleModalVisibility={handleToggleVisibilityTransModal}
+            />
+          )
+        );
+      case 'showState':
+        return (
+          modal.modalVisibility && (
+            <ShowStateDetailsModal
+              state={modal.state}
+              onCloseModal={resetModal}
+            />
+          )
+        );
+      case 'showTran':
+        return (
+          <ShowTranDetailsModal tran={modal.tran} onCloseModal={resetModal} />
+        );
+      default:
+        return null;
+    }
+  };
   return (
     <View style={styles.container}>
       <SharedHeader
@@ -154,10 +192,16 @@ const DrawStateMachineScreen = () => {
             x2={tran.nextState.x}
             y2={tran.nextState.y}
             hasReverse={tran.hasReverse}
+            onTranPress={() =>
+              handleShowModal(true, false, 'showTran', undefined, tran)
+            }
           />
         ))}
         {states.map((item: stateType) => (
-          <State stateNumber={item.stateNumber} x={item.x} y={item.y} />
+          <State
+            state={item}
+            onStatePress={() => handleShowModal(true, false, 'showState', item)}
+          />
         ))}
       </Svg>
       {renderModal(currentModal)}

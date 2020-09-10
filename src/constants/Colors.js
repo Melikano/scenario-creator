@@ -8,5 +8,6 @@ const Colors = {
   sim: '#990000',
   mediumGray: '#949494',
   red: '#c40c0c',
+  ghostWhite: '#ededed',
 };
 export default Colors;

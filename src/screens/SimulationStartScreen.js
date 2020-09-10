@@ -1,6 +1,6 @@
 //@flow
-import React, {useState} from 'react';
-import {ScrollView, StyleSheet} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {ScrollView, StyleSheet, FlatList, Dimensions} from 'react-native';
 import {useSelector} from 'react-redux';
 import Simulator from '../utils/Simulator';
 import {useRoute, useNavigation} from '@react-navigation/native';
@@ -16,26 +16,44 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 import SharedButton from '../sharedComponents/SharedButton';
 import Colors from '../constants/Colors';
 import Screens from '../constants/Screens';
+import {State, TouchableOpacity} from 'react-native-gesture-handler';
+import StateBox from '../components/StateBox';
+import TranBox from '../components/TranBox';
+import SharedStyles from '../constants/Styles';
+
+const {width} = Dimensions.get('window');
 
 const SimulationStartScreen = () => {
   const [reload, setReload] = useState(false);
+  const [path, setPath] = useState([]);
+  const [sensorsData, setSensorsData] = useState([]);
+  const [actuatorsValues, setActuatorValues] = useState([]);
   const navigation = useNavigation();
   const {duration, things, scenario} = useRoute().params;
+  const [mode, setMode] = useState('path');
   const fsm = useSelector(state => state.fsm);
 
   const passedFsm =
     fsm.states.length > 0 && fsm.transitions.length > 0 ? fsm : scenario.fsm;
   console.log(passedFsm);
-  const {path, sensorsData, actuatorsValues} = Simulator(
-    passedFsm,
-    things.map(resolveFunction),
-    duration,
-  );
+  useEffect(() => {
+    const {path, sensorsData, actuatorsValues} = Simulator(
+      passedFsm,
+      things.map(resolveFunction),
+      duration,
+    );
+
+    setPath(path);
+    setSensorsData(sensorsData);
+    setActuatorValues(actuatorsValues);
+  }, [reload]);
+
   console.log(sensorsData);
   console.log(actuatorsValues);
 
   const renderDiagrams = () => (
-    <ScrollView>
+    <ScrollView
+      style={{backgroundColor: Colors.ghostWhite, paddingVertical: 10}}>
       <View style={styles.chartContainer}>
         {sensorsData.map(sens => (
           <>
@@ -44,10 +62,12 @@ const SimulationStartScreen = () => {
               Strings.chartTitle(sens.name)}
             </Text>
             <BarChart
-              data={sens.value.map((v: number, index: number) => ({
-                label: index.toString(),
-                value: v,
-              }))}
+              data={sens.value
+                .slice(0, sens.value.length - 1)
+                .map((v: number, index: number) => ({
+                  label: index.toString(),
+                  value: v,
+                }))}
             />
           </>
         ))}
@@ -60,7 +80,7 @@ const SimulationStartScreen = () => {
               Strings.chartTitle(act.name)}
             </Text>
             <BarChart
-              data={act.value.map((v: number, index: number) => ({
+              data={act.value.slice(1).map((v: number, index: number) => ({
                 label: index.toString(),
                 value: v,
               }))}
@@ -70,10 +90,89 @@ const SimulationStartScreen = () => {
       </View>
     </ScrollView>
   );
+
+  const renderPath = () => {
+    return (
+      <FlatList
+        style={{backgroundColor: Colors.ghostWhite, paddingVertical: 20}}
+        data={path.slice(1)}
+        ListHeaderComponent={
+          <Text style={SharedStyles.sharedTextStyle}>{`${Strings.start} ${
+            Strings.simulation
+          }`}</Text>
+        }
+        ListFooterComponent={
+          <Text style={SharedStyles.sharedTextStyle}>{Strings.end}</Text>
+        }
+        renderItem={({item, index}) => (
+          <View>
+            {index !== 0 && (
+              <TranBox
+                sensorsVlaues={sensorsData.map(sens => ({
+                  //$FlowFixMe
+                  name: sens.name,
+                  value: Number(sens.value[index].toPrecision(4)),
+                }))}
+              />
+            )}
+            <StateBox state={item} />
+          </View>
+        )}
+      />
+    );
+  };
+
+  const renderContent = () => {
+    switch (mode) {
+      case 'path':
+        return renderPath();
+      case 'diagram':
+        return renderDiagrams();
+      default:
+        return null;
+    }
+  };
   return (
-    <KeyboardAwareScrollView>
+    <KeyboardAwareScrollView style={{backgroundColor: Colors.white}}>
       <SharedHeader title="نتایج شبیه‌سازی" />
-      {renderDiagrams()}
+      <View
+        style={{
+          flexDirection: 'row-reverse',
+          justifyContent: 'space-between',
+          alignSelf: 'center',
+          width: '100%',
+        }}>
+        <TouchableOpacity onPress={() => setMode('path')}>
+          <View
+            style={{
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+              backgroundColor:
+                mode === 'path' ? Colors.ghostWhite : Colors.white,
+              paddingHorizontal: mode === 'path' ? 100 : 30,
+              paddingVertical: 10,
+            }}>
+            <Text style={SharedStyles.sharedTextStyle}>{Strings.path}</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setMode('diagram')}>
+          <View
+            style={{
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+              backgroundColor:
+                mode === 'diagram' ? Colors.ghostWhite : Colors.white,
+              borderBottomWidth: 0,
+              paddingHorizontal: mode === 'diagram' ? 100 : 30,
+              paddingVertical: 10,
+            }}>
+            <Text style={SharedStyles.sharedTextStyle}>
+              {Strings.showDiagrams}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+      {renderContent()}
       <View
         style={{
           flexDirection: 'row',

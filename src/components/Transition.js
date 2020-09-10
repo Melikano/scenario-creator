@@ -9,8 +9,16 @@ type TransitionProps = {
   x2: number,
   y2: number,
   hasReverse: boolean,
+  onTranPress: Function,
 };
-const Transition = ({x1, y1, x2, y2, hasReverse}: TransitionProps) => {
+const Transition = ({
+  x1,
+  y1,
+  x2,
+  y2,
+  hasReverse,
+  onTranPress,
+}: TransitionProps) => {
   const offset = Math.abs(x1 - x2);
   const r = hasReverse ? 3 : -3;
   console.log(x1);
@@ -21,6 +29,7 @@ const Transition = ({x1, y1, x2, y2, hasReverse}: TransitionProps) => {
         offset / r} ${y2 - offset / r} ${x2} ${y2}`}
       stroke={Colors.gray}
       strokeWidth={2}
+      onPress={onTranPress}
     />
   );
 };
