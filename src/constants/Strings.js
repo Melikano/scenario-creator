@@ -61,6 +61,7 @@ const Strings = {
   path: 'مسیر',
   stateName: 'نام حالت',
   state: 'حالت',
+  value: 'مقدار',
 };
 
 export default Strings;

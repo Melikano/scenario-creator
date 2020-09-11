@@ -14,25 +14,38 @@ type Props = {|
 const ShowStateDetailsModal = ({onCloseModal, state}: Props) => {
   return (
     <SharedModal isConfirmationModal={false} onCancel={onCloseModal}>
-      <Text style={SharedStyles.sharedTextStyle}>{`${Strings.stateNumber} : ${
-        state.stateNumber
-      }`}</Text>
-      <Text style={SharedStyles.sharedTextStyle}>{Strings.actuatorValues}</Text>
+      <View style={styles.modalRow}>
+        <Text style={{...SharedStyles.sharedTitleStyle, fontSize: 14}}>
+          {`${Strings.stateName} : `}
+        </Text>
+        <Text style={SharedStyles.sharedTextStyle}>{state.stateName}</Text>
+      </View>
+      <View />
+      <View style={styles.modalRow}>
+        <Text style={{...SharedStyles.sharedTitleStyle, fontSize: 14}}>
+          {`${Strings.stateNumber} : `}
+        </Text>
+        <Text style={SharedStyles.sharedTextStyle}>{state.stateNumber}</Text>
+      </View>
       <View>
         {state.actuatorsValues?.map(act => (
-          <View>
-            <Text style={SharedStyles.sharedTextStyle}>{`${act.name} : ${
-              act.value
-            }`}</Text>
+          <View style={styles.modalRow}>
+            <Text style={{...SharedStyles.sharedTitleStyle, fontSize: 14}}>
+              {`${Strings.value} ${act.name} : `}
+            </Text>
+            <Text style={SharedStyles.sharedTextStyle}>{act.value}</Text>
           </View>
         ))}
       </View>
-      <Text style={SharedStyles.sharedTextStyle}>{Strings.stateName}</Text>
-      <Text style={SharedStyles.sharedTextStyle}>{state.stateName}</Text>
     </SharedModal>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  modalRow: {
+    flexDirection: 'row-reverse',
+    justifyContent: 'space-between',
+  },
+});
 
 export default ShowStateDetailsModal;

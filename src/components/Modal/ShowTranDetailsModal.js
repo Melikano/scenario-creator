@@ -14,13 +14,23 @@ type Props = {|
 const ShowTranDetailsModal = ({onCloseModal, tran}: Props) => {
   return (
     <SharedModal isConfirmationModal={false} onCancel={onCloseModal}>
-      <Text style={SharedStyles.sharedTextStyle}>{`${Strings.source} : ${
-        tran.preState.stateNumber
-      }`}</Text>
-      <Text style={SharedStyles.sharedTextStyle}>{`${Strings.destination} : ${
-        tran.nextState.stateNumber
-      }`}</Text>
-      <Text style={SharedStyles.sharedTextStyle}>
+      <View style={styles.modalRow}>
+        <Text style={{...SharedStyles.sharedTitleStyle, fontSize: 14}}>
+          {`${Strings.source} : `}
+        </Text>
+        <Text style={SharedStyles.sharedTextStyle}>
+          {tran.preState.stateName}
+        </Text>
+      </View>
+      <View style={styles.modalRow}>
+        <Text style={{...SharedStyles.sharedTitleStyle, fontSize: 14}}>
+          {`${Strings.destination} : `}
+        </Text>
+        <Text style={SharedStyles.sharedTextStyle}>
+          {tran.nextState.stateName}
+        </Text>
+      </View>
+      <Text style={{...SharedStyles.sharedTitleStyle, fontSize: 14}}>
         {Strings.sensorsConditions}
       </Text>
       <View>
@@ -34,6 +44,11 @@ const ShowTranDetailsModal = ({onCloseModal, tran}: Props) => {
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  modalRow: {
+    flexDirection: 'row-reverse',
+    justifyContent: 'space-between',
+  },
+});
 
 export default ShowTranDetailsModal;
