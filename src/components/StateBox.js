@@ -25,6 +25,11 @@ const StateBox = ({state}: props) => {
         style={{
           ...SharedStyles.sharedButtonTextStyle,
           textAlign: 'center',
+        }}>{`${Strings.state} ${state.stateName}`}</Text>
+      <Text
+        style={{
+          ...SharedStyles.sharedButtonTextStyle,
+          textAlign: 'center',
         }}>{`${Strings.stateNumber} : ${state.stateNumber}`}</Text>
       <View>
         {state.actuatorsValues?.map(act => (

@@ -60,6 +60,7 @@ const Strings = {
   end: 'پایان',
   path: 'مسیر',
   stateName: 'نام حالت',
+  state: 'حالت',
 };
 
 export default Strings;

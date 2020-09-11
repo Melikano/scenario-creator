@@ -9,9 +9,18 @@ type prop = {
   title: string,
   showBack?: boolean,
   onBackPress?: () => void,
+  hasTabs?: boolean,
 };
-const SharedHeader = ({title, showBack = false, onBackPress}: prop) => (
-  <Header style={styles.header} androidStatusBarColor={Colors.blueButton}>
+const SharedHeader = ({
+  title,
+  showBack = false,
+  onBackPress,
+  hasTabs = false,
+}: prop) => (
+  <Header
+    style={hasTabs ? styles.headerNotCurved : styles.header}
+    androidStatusBarColor={Colors.blueButton}
+    hasTabs={hasTabs}>
     <Right>
       <Text style={[SharedStyles.sharedButtonTextStyle, styles.headerText]}>
         {title}
@@ -29,6 +38,10 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.blueButton,
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
+    height: 100,
+  },
+  headerNotCurved: {
+    backgroundColor: Colors.blueButton,
     height: 100,
   },
   icon: {

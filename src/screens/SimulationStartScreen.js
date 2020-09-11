@@ -1,6 +1,7 @@
 //@flow
 import React, {useState, useEffect} from 'react';
 import {ScrollView, StyleSheet, FlatList, Dimensions} from 'react-native';
+import {Tabs, Tab} from 'native-base';
 import {useSelector} from 'react-redux';
 import Simulator from '../utils/Simulator';
 import {useRoute, useNavigation} from '@react-navigation/native';
@@ -30,7 +31,6 @@ const SimulationStartScreen = () => {
   const [actuatorsValues, setActuatorValues] = useState([]);
   const navigation = useNavigation();
   const {duration, things, scenario} = useRoute().params;
-  const [mode, setMode] = useState('path');
   const fsm = useSelector(state => state.fsm);
 
   const passedFsm =
@@ -88,6 +88,23 @@ const SimulationStartScreen = () => {
           </>
         ))}
       </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-evenly',
+          marginVertical: 40,
+        }}>
+        <SharedButton
+          title={Strings.repeat}
+          onPress={() => setReload(!reload)}
+          style={{backgroundColor: Colors.blueButton}}
+        />
+        <SharedButton
+          title={Strings.newScenrio}
+          onPress={() => navigation.navigate(Screens.addName, {reset: true})}
+          style={{backgroundColor: Colors.blueButton}}
+        />
+      </View>
     </ScrollView>
   );
 
@@ -102,7 +119,29 @@ const SimulationStartScreen = () => {
           }`}</Text>
         }
         ListFooterComponent={
-          <Text style={SharedStyles.sharedTextStyle}>{Strings.end}</Text>
+          <View>
+            <Text style={SharedStyles.sharedTextStyle}>{Strings.end}</Text>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-evenly',
+                marginVertical: 40,
+              }}>
+              <SharedButton
+                title={Strings.repeat}
+                onPress={() => setReload(!reload)}
+                style={{backgroundColor: Colors.blueButton}}
+              />
+              <SharedButton
+                title={Strings.newScenrio}
+                onPress={() =>
+                  navigation.navigate(Screens.addName, {reset: true})
+                }
+                style={{backgroundColor: Colors.blueButton}}
+              />
+            </View>
+          </View>
         }
         renderItem={({item, index}) => (
           <View>
@@ -122,74 +161,21 @@ const SimulationStartScreen = () => {
     );
   };
 
-  const renderContent = () => {
-    switch (mode) {
-      case 'path':
-        return renderPath();
-      case 'diagram':
-        return renderDiagrams();
-      default:
-        return null;
-    }
-  };
   return (
     <KeyboardAwareScrollView style={{backgroundColor: Colors.white}}>
-      <SharedHeader title="نتایج شبیه‌سازی" />
-      <View
-        style={{
-          flexDirection: 'row-reverse',
-          justifyContent: 'space-between',
-          alignSelf: 'center',
-          width: '100%',
-        }}>
-        <TouchableOpacity onPress={() => setMode('path')}>
-          <View
-            style={{
-              borderTopLeftRadius: 10,
-              borderTopRightRadius: 10,
-              backgroundColor:
-                mode === 'path' ? Colors.ghostWhite : Colors.white,
-              paddingHorizontal: mode === 'path' ? 100 : 30,
-              paddingVertical: 10,
-            }}>
-            <Text style={SharedStyles.sharedTextStyle}>{Strings.path}</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setMode('diagram')}>
-          <View
-            style={{
-              borderTopLeftRadius: 10,
-              borderTopRightRadius: 10,
-              backgroundColor:
-                mode === 'diagram' ? Colors.ghostWhite : Colors.white,
-              borderBottomWidth: 0,
-              paddingHorizontal: mode === 'diagram' ? 100 : 30,
-              paddingVertical: 10,
-            }}>
-            <Text style={SharedStyles.sharedTextStyle}>
-              {Strings.showDiagrams}
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-      {renderContent()}
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-evenly',
-          marginVertical: 40,
-        }}>
-        <SharedButton
-          title={Strings.repeat}
-          onPress={() => setReload(!reload)}
-          style={{backgroundColor: Colors.blueButton}}
-        />
-        <SharedButton
-          title={Strings.newScenrio}
-          onPress={() => navigation.navigate(Screens.addName, {reset: true})}
-          style={{backgroundColor: Colors.blueButton}}
-        />
-      </View>
+      <SharedHeader title="نتایج شبیه‌سازی" hasTabs />
+      <Tabs>
+        <Tab
+          heading={Strings.showDiagrams}
+          tabStyle={{backgroundColor: Colors.blueButton}}>
+          {renderDiagrams()}
+        </Tab>
+        <Tab
+          heading={Strings.path}
+          tabStyle={{backgroundColor: Colors.blueButton}}>
+          {renderPath()}
+        </Tab>
+      </Tabs>
     </KeyboardAwareScrollView>
   );
 };
